@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Collections;
 
+
 namespace UnityStandardAssets.Characters.ThirdPerson
 {
     public class SoldierBehaviour : MonoBehaviour
@@ -20,7 +21,9 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         private bool alive;
         
         // Variables for patrolling
-        public GameObject[] waypoints;
+        public Transform[] waypoints;
+        [SerializeField]
+        private GameManager manage;// reference to the game manager used in order to find and generate waypoints
         private int waypointInd = 0;
         [SerializeField]
         private float patrolspeed = 0.5f;
@@ -40,9 +43,15 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         [SerializeField]
         private float sightDist = 10;
 
+       private  void Awake()
+        {
+            // function that generates random ways for ai to walk on
+            GenerateRandomWaypoints(); //does not work yet, searching for solutions
+        }
         void Start()
         {
             //assign the references for the agents and character scripts
+            
             agent = GetComponent<NavMeshAgent>();
             character = GetComponent<ThirdPersonCharacter>();// this can be changed to other script when we have a more specific movement script created
             //allow navmesh agent to update movement and rotation
@@ -55,22 +64,44 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             heightMultiplier = 1.36f;
 
         }
+        private void GenerateRandomWaypoints()
+        {
+            // this method uses a for loop to generate 
+            waypoints = new Transform[manage.wayPointsInScene.Length];
+                        
+            for(waypointInd = 0; waypointInd>=manage.wayPointsInScene.Length; waypointInd++)
+            {
+                if (waypoints[waypointInd] == null)
+                {
+                    // lets see how this one works but there might be aneed for another checker that compares the randomized waypoint with the 
+                    // elements already in the list preenting two elements to be the same
+                    int randomIndex = UnityEngine.Random.Range(0, manage.wayPointsInScene.Length - 1); 
+                    // by some reason it needed to be clarified that i want to use Unitys random function rather than C# basic system.random
+                    waypoints[waypointInd] = manage.wayPointsInScene[randomIndex];
+                }
+            }
+        }
         IEnumerator FSM()
         {
+            //statemachine defining the different states the ai goes through
             while (alive)
             {
                 switch (state)
                 {
                     case State.PATROL:
+                        // calls method for patroling
                         Patrol();
                         break;
                     case State.CHASE:
+                        // calls methd for chasing the player
                         Chase();
                         break;
+                        // calls method for investigating a specific spot
                     case State.INVESTIGATE:
                         Investigate();
                         break;
                     case State.DISTRACTED:
+                        // calls a method that make ai character walk in direction towards a distraction point
                         Distraction();
                         break;
                        
@@ -154,7 +185,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         void Distraction()
         {
             // change to run speed
-            // set the alerting Jug or other alert object to the navmesh agents destination
+            // set the alerting throwable object or other alert object to the navmesh agents destination
 
         }
         void OnTriggerStay(Collider coll)
@@ -165,6 +196,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
                 investigateSpot = coll.gameObject.transform.position;             
                
             }
+        
         }
         void Update()
         {

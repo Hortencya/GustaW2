@@ -10,6 +10,7 @@ TagManager:
   - Obstacle
   - Danish
   - InstructObject
+  - GameManager
   layers:
   - Default
   - TransparentFX

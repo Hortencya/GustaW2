@@ -8,15 +8,16 @@ public class Jug : MonoBehaviour
     private bool hitOnce;// hinders the jug from playing crasch effects more than once
     private ThrowableObject throwable;
     private GameObject player;
+    [SerializeField]
+    private GameManager gameManager;
 
     AudioSource jugsound; // is played when hiting the ground
     public AudioClip[] reactionsound; // array of soundclips for different results  
 
     void Awake()
-    {
-        player = GameObject.FindGameObjectWithTag("Player");
+    {        
         jugsound = GetComponent<AudioSource>();      
-        throwable = player.GetComponent<ThrowableObject>();
+        throwable = gameManager.playercharacter.GetComponent<ThrowableObject>();
         jugPickedup = false;
         hitOnce = false; 
     }

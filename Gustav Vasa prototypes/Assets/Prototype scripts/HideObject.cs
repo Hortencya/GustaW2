@@ -13,8 +13,9 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         private bool firstInteract;// determines if this is the first time we interact with the object 
         private int reactionIndex; 
         private Vector3 origpos;// this are updated after the players positon
+        //private GameObject instruction;// in order to tie the game object of instructions to the hay, it is in a serialized field
         [SerializeField]
-        private GameObject instruction;// in order to tie the game object of instructions to the hay, it is in a serialized field
+        private GameManager gameManager;
 
         private float instTimer;// used as timer similar to how this work in jug
         private float txtWait;//
@@ -51,7 +52,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             txtWait = 10f;
             instTimer = 0f;//set timer to zero at start
             
-            instruction = GameObject.Find("Instructions¨");// find the object for instruction
+            //instruction = GameObject.Find("Instructions¨");// find the object for instruction
             character = GetComponent<ThirdPersonCharacter>();
 
         }
@@ -99,10 +100,10 @@ namespace UnityStandardAssets.Characters.ThirdPerson
                 if (!firstInteract && instTimer < txtWait)// check if this is the first time we interacts with the hay
                 {
                     // set texmesh property text to an instruction about what to do
-                    instruction.GetComponent<TextMesh>().text = "Press X to hide in the stack of hay";// gives instruction the first time the object are interacted with
+                    gameManager.instructions.GetComponent<TextMesh>().text = "Press X to hide in the stack of hay";// gives instruction the first time the object are interacted with
                 }
                 else if (!firstInteract && instTimer < txtWait && isHiding)
-                    instruction.GetComponent<TextMesh>().text = "Left-Click to leave hay";
+                    gameManager.instructions.GetComponent<TextMesh>().text = "Left-Click to leave hay";
 
                 // This block handles the input from the player
                 if (Input.GetKeyDown(KeyCode.X))

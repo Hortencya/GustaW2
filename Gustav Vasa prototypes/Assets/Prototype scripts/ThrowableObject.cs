@@ -3,15 +3,13 @@ using System.Collections;
 
 public class ThrowableObject : MonoBehaviour {
     // this script is meant to do what the jug script earlier did but with any object tagged as "Throwable"
-   
-     // Gameobjects needed by throwable object
-   
-     
-    private  GameObject holdobj;// same as with player
+
+    // Gameobjects needed by throwable object
     [SerializeField]
-    private GameObject[] danishEnemy; // reference to the enemies always contain all the enemies in the scene
+    private GameManager manage;
+    //private  GameObject holdobj;// use game manager instead
     [SerializeField]
-    private GameObject[] enemiesInrange; // contains only the enemies that are inside of the hearing distance
+    private GameObject[] enemiesInrange; // contains  the enemies that are inside of the hearing distance
     [SerializeField]
     private GameObject currentPickup;// the object currently hold by the player
    // I decided that I do not want a first time picked up bool due to that the same gui could appear to let the player grab an object whenever he is in range for something throwable
@@ -25,12 +23,6 @@ public class ThrowableObject : MonoBehaviour {
 
     // Scripts refered to in throweable object, here Jug and other scripts for instance glass, woodenpiece, cheramics etc
     private Jug jugObject;
-    
-
-    // GUI variables these can be attached to a GUi Script separate from this if needed
-    private GameObject instruction;// reference the object that holds the instructions for the player
-   
-
     // properties for this throwable object class, these can be used by any objects referencing this code
    public bool IsThrown
     {
@@ -51,9 +43,6 @@ public class ThrowableObject : MonoBehaviour {
     void SetUpInteractability()
     {
         // This method sets up the script so that the player can pick up certain objects
-        holdobj = GameObject.FindGameObjectWithTag("Hold");// assigns the holdobject a reference
-        instruction = GameObject.FindGameObjectWithTag("InstructObject");// assings the instruction object a reference
-        danishEnemy = GameObject.FindGameObjectsWithTag("Danish");// list with all danish enemies
         inRange = false;// Inrange is false at start
         pickedUp = false;// sets pickedup to false
        
@@ -69,7 +58,7 @@ public class ThrowableObject : MonoBehaviour {
         if (inRange && !pickedUp)
         {      
             // Change the instructions from empty to given instruction  
-            instruction.GetComponent<TextMesh>().text = "Press X to pick up";
+            manage.instructions.GetComponent<TextMesh>().text = "Press X to pick up";
             PickUp();// calls the function for picking the Jug up from the ground
         }
         
@@ -81,7 +70,7 @@ public class ThrowableObject : MonoBehaviour {
         }
         else
         {
-            instruction.GetComponent<TextMesh>().text = string.Empty;
+            manage.instructions.GetComponent<TextMesh>().text = string.Empty;
         }
 
     }
@@ -92,12 +81,12 @@ public class ThrowableObject : MonoBehaviour {
         // Check if the player press the X button on the keyboard
         if (Input.GetKeyDown(KeyCode.X))
         {
-            instruction.GetComponent<TextMesh>().text = "Left-click to throw";
+            manage.instructions.GetComponent<TextMesh>().text = "Left-click to throw";
             pickedUp = true;
             // parent the current object to the holdobject
-            currentPickup.transform.parent = holdobj.transform;
+            currentPickup.transform.parent = manage.holdobject.transform;
             // change transform.position of the jug to where the players hands are supposed to be
-            currentPickup.transform.position = holdobj.transform.position;        
+            currentPickup.transform.position = manage.holdobject.transform.position;        
         }
     }
     void Throwdistraction()
@@ -105,7 +94,7 @@ public class ThrowableObject : MonoBehaviour {
         if (Input.GetMouseButtonDown(1))
             {
                 isthrown = true;// allow checkground to be run
-                instruction.GetComponent<TextMesh>().text = string.Empty;       
+                manage.instructions.GetComponent<TextMesh>().text = string.Empty;       
                 currentPickup.transform.parent = null;
                 // add rigidbody component and enable kinematicness
                 Rigidbody temporaryRigid = currentPickup.AddComponent(typeof(Rigidbody)) as Rigidbody;

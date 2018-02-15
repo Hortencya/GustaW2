@@ -70,11 +70,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Prototype scripts\CameraFollow.cs" />
+    <Compile Include="Assets\Prototype scripts\GameManager.cs" />
     <Compile Include="Assets\Prototype scripts\Haybale.cs" />
     <Compile Include="Assets\Prototype scripts\HideObject.cs" />
     <Compile Include="Assets\Prototype scripts\IndoorCameraChange.cs" />
     <Compile Include="Assets\Prototype scripts\Jug.cs" />
     <Compile Include="Assets\Prototype scripts\SoldierBehaviour.cs" />
+    <Compile Include="Assets\Prototype scripts\SoundManager.cs" />
     <Compile Include="Assets\Prototype scripts\ThrowableObject.cs" />
   </ItemGroup>
   <ItemGroup>
