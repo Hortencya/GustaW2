@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour {
     //althogh other scripts in general has a quite strict ban towards public variables the game manager does have a set of public lists and variables
     // that are designed to be easily found by other game objects
     public static GameManager managerWasa = null;
+    public Camera mainCamera;// reference to the main camera;
     public GameObject[] danishSoldiers;// reference to the enemy object
     public Transform[] wayPointsInScene;// reference to the waypints that marks enemymovement
     public GameObject instructions;// Refers the ui object

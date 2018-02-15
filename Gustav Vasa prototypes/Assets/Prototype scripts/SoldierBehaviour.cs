@@ -46,7 +46,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
        private  void Awake()
         {
             // function that generates random ways for ai to walk on
-            GenerateRandomWaypoints(); //does not work yet, searching for solutions
+           // GenerateRandomWaypoints(); //does not work yet, searching for solutions
         }
         void Start()
         {
