@@ -14,8 +14,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         private int reactionIndex; 
         private Vector3 origpos;// this are updated after the players positon
         //private GameObject instruction;// in order to tie the game object of instructions to the hay, it is in a serialized field
-        [SerializeField]
-        private GameManager gameManager;
+        
 
         private float instTimer;// used as timer similar to how this work in jug
         private float txtWait;//
@@ -100,10 +99,10 @@ namespace UnityStandardAssets.Characters.ThirdPerson
                 if (!firstInteract && instTimer < txtWait)// check if this is the first time we interacts with the hay
                 {
                     // set texmesh property text to an instruction about what to do
-                    gameManager.instructions.GetComponent<TextMesh>().text = "Press X to hide in the stack of hay";// gives instruction the first time the object are interacted with
+                    GameManager.managerWasa.instructions.GetComponent<TextMesh>().text = "Press X to hide in the stack of hay";// gives instruction the first time the object are interacted with
                 }
                 else if (!firstInteract && instTimer < txtWait && isHiding)
-                    gameManager.instructions.GetComponent<TextMesh>().text = "Left-Click to leave hay";
+                    GameManager.managerWasa.instructions.GetComponent<TextMesh>().text = "Left-Click to leave hay";
 
                 // This block handles the input from the player
                 if (Input.GetKeyDown(KeyCode.X))

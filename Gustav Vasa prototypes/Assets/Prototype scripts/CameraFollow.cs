@@ -3,7 +3,7 @@ using System.Collections;
 
 public class CameraFollow : MonoBehaviour {
     
-    public Transform player;
+    private  Transform player;
     [SerializeField]
     private Vector3 offset;
     [SerializeField]
@@ -15,6 +15,10 @@ public class CameraFollow : MonoBehaviour {
     private float roationYValue;// the value on Y axis the camera is rotated with(is locked to player rotation and therefore do not have a constructor.)
     private Quaternion cameraRotation;  // this is the quarternion for the rotation of the camera 
     
+    private void Awake()
+    {
+        player = GameObject.FindGameObjectWithTag("Player").transform;
+    }
     // public constructors for camera script 
     public float RotationX
     {

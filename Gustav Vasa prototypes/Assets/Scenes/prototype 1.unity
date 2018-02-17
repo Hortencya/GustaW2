@@ -190,7 +190,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2ba6ac5b0268904bb003789894fbfd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 827312748}
   offset: {x: -0.4, y: 2.27, z: -3.88}
   offsetPostionSpace: 1
   cameraIsLocked: 1
@@ -1035,7 +1034,6 @@ MonoBehaviour:
   hayAudio:
   - {fileID: 8300000, guid: 02dfeb4abed7ea141b6695960cc9d0ca, type: 3}
   - {fileID: 8300000, guid: c3e3cc980c96a544ba99cb10e0c42af4, type: 3}
-  gamemanager: {fileID: 918342251}
 --- !u!65 &1001555552
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4880,7 +4878,6 @@ MonoBehaviour:
   hayAudio:
   - {fileID: 8300000, guid: 02dfeb4abed7ea141b6695960cc9d0ca, type: 3}
   - {fileID: 8300000, guid: c3e3cc980c96a544ba99cb10e0c42af4, type: 3}
-  gamemanager: {fileID: 918342251}
 --- !u!65 &1011139031
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4954,10 +4951,9 @@ GameObject:
   m_Component:
   - 4: {fileID: 1064975341}
   - 65: {fileID: 1064975343}
-  - 114: {fileID: 1064975342}
   m_Layer: 0
   m_Name: Door trigger
-  m_TagString: Untagged
+  m_TagString: Trigger
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4969,32 +4965,12 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1064975340}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.3, y: 0.107049644, z: -9.483}
-  m_LocalScale: {x: 1.0205472, y: 1.9829302, z: 0.92896575}
+  m_LocalPosition: {x: -7.64, y: -0.001, z: -9.483}
+  m_LocalScale: {x: 0.3386052, y: 1.9255658, z: 0.9805604}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 1852779953}
   m_RootOrder: 0
---- !u!114 &1064975342
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1064975340}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a0979a117ce68d04ba7ae01cf1fd0c63, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  offset: {x: 0, y: 0, z: 0}
-  offsetPostionSpace: 1
-  cameraIsLocked: 1
-  rotationXValue: 0
-  gameManager: {fileID: 918342251}
-  maxZoomDistance: 0
-  minZoomDistane: 0
-  zoomspeed: 0
 --- !u!65 &1064975343
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5118,7 +5094,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 5426510, guid: 7737647c22c1fc64a88d5cd030c352ce, type: 2}
       propertyPath: m_AngularDrag
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 13615390, guid: 7737647c22c1fc64a88d5cd030c352ce, type: 2}
       propertyPath: m_IsTrigger
@@ -5127,6 +5103,18 @@ Prefab:
     - target: {fileID: 11469404, guid: 7737647c22c1fc64a88d5cd030c352ce, type: 2}
       propertyPath: m_MovingTurnSpeed
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11444856, guid: 7737647c22c1fc64a88d5cd030c352ce, type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11469404, guid: 7737647c22c1fc64a88d5cd030c352ce, type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5426510, guid: 7737647c22c1fc64a88d5cd030c352ce, type: 2}
+      propertyPath: m_Drag
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7737647c22c1fc64a88d5cd030c352ce, type: 2}
@@ -5322,7 +5310,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa763fa06703fb64db26cc0269af1599, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  manage: {fileID: 918342251}
   enemiesInrange: []
   currentPickup: {fileID: 0}
 --- !u!114 &1544861577
@@ -5337,7 +5324,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hideObject: {fileID: 0}
-  gameManager: {fileID: 918342251}
+--- !u!114 &1544861578
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1544861575}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c97ed69f7bcd2843b37d1b3ebbde8c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementSpeed: 3
+  turnSpeed: 2
+--- !u!114 &1544861583
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1544861575}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0979a117ce68d04ba7ae01cf1fd0c63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxZoomDistance: 0
+  minZoomDistane: 0
+  zoomspeed: 0
 --- !u!1 &1616344500
 GameObject:
   m_ObjectHideFlags: 0
@@ -5722,7 +5735,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7587571893aaf34c93fd9a1b6d86781, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameManager: {fileID: 918342251}
+  jugsound: {fileID: 0}
   reactionsound:
   - {fileID: 8300000, guid: 7a874992247c70e41bd034c0912790e0, type: 3}
   - {fileID: 8300000, guid: 7032d8de8dcfc24498ceb47182d18744, type: 3}

@@ -7,6 +7,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 {
     public class SoldierBehaviour : MonoBehaviour
     {
+        
         public NavMeshAgent agent;
         public ThirdPersonCharacter character;
 
@@ -22,8 +23,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         
         // Variables for patrolling
         public Transform[] waypoints;
-        [SerializeField]
-        private GameManager manage;// reference to the game manager used in order to find and generate waypoints
+        [SerializeField]       
         private int waypointInd = 0;
         [SerializeField]
         private float patrolspeed = 0.5f;
@@ -67,17 +67,17 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         private void GenerateRandomWaypoints()
         {
             // this method uses a for loop to generate 
-            waypoints = new Transform[manage.wayPointsInScene.Length];
+            waypoints = new Transform[GameManager.managerWasa.wayPointsInScene.Length];
                         
-            for(waypointInd = 0; waypointInd>=manage.wayPointsInScene.Length; waypointInd++)
+            for(waypointInd = 0; waypointInd>=GameManager.managerWasa.wayPointsInScene.Length; waypointInd++)
             {
                 if (waypoints[waypointInd] == null)
                 {
                     // lets see how this one works but there might be aneed for another checker that compares the randomized waypoint with the 
                     // elements already in the list preenting two elements to be the same
-                    int randomIndex = UnityEngine.Random.Range(0, manage.wayPointsInScene.Length - 1); 
+                    int randomIndex = UnityEngine.Random.Range(0, GameManager.managerWasa.wayPointsInScene.Length - 1); 
                     // by some reason it needed to be clarified that i want to use Unitys random function rather than C# basic system.random
-                    waypoints[waypointInd] = manage.wayPointsInScene[randomIndex];
+                    waypoints[waypointInd] = GameManager.managerWasa.wayPointsInScene[randomIndex];
                 }
             }
         }

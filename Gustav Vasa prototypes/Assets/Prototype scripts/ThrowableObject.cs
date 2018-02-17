@@ -2,11 +2,7 @@
 using System.Collections;
 
 public class ThrowableObject : MonoBehaviour {
-    // this script is meant to do what the jug script earlier did but with any object tagged as "Throwable"
-
-    // Gameobjects needed by throwable object
-    [SerializeField]
-    private GameManager manage;
+    // this script is meant to do what the jug script earlier did but with any object tagged as "Throwable"    
     //private  GameObject holdobj;// use game manager instead
     [SerializeField]
     private GameObject[] enemiesInrange; // contains  the enemies that are inside of the hearing distance
@@ -58,7 +54,7 @@ public class ThrowableObject : MonoBehaviour {
         if (inRange && !pickedUp)
         {      
             // Change the instructions from empty to given instruction  
-            manage.instructions.GetComponent<TextMesh>().text = "Press X to pick up";
+           GameManager.managerWasa.instructions.GetComponent<TextMesh>().text = "Press X to pick up";
             PickUp();// calls the function for picking the Jug up from the ground
         }
         
@@ -70,7 +66,7 @@ public class ThrowableObject : MonoBehaviour {
         }
         else
         {
-            manage.instructions.GetComponent<TextMesh>().text = string.Empty;
+           GameManager.managerWasa.instructions.GetComponent<TextMesh>().text = string.Empty;
         }
 
     }
@@ -81,12 +77,12 @@ public class ThrowableObject : MonoBehaviour {
         // Check if the player press the X button on the keyboard
         if (Input.GetKeyDown(KeyCode.X))
         {
-            manage.instructions.GetComponent<TextMesh>().text = "Left-click to throw";
+            GameManager.managerWasa.instructions.GetComponent<TextMesh>().text = "Left-click to throw";
             pickedUp = true;
             // parent the current object to the holdobject
-            currentPickup.transform.parent = manage.holdobject.transform;
+            currentPickup.transform.parent = GameManager.managerWasa.holdobject.transform;
             // change transform.position of the jug to where the players hands are supposed to be
-            currentPickup.transform.position = manage.holdobject.transform.position;        
+            currentPickup.transform.position = GameManager.managerWasa.holdobject.transform.position;        
         }
     }
     void Throwdistraction()
@@ -94,7 +90,7 @@ public class ThrowableObject : MonoBehaviour {
         if (Input.GetMouseButtonDown(1))
             {
                 isthrown = true;// allow checkground to be run
-                manage.instructions.GetComponent<TextMesh>().text = string.Empty;       
+                GameManager.managerWasa.instructions.GetComponent<TextMesh>().text = string.Empty;       
                 currentPickup.transform.parent = null;
                 // add rigidbody component and enable kinematicness
                 Rigidbody temporaryRigid = currentPickup.AddComponent(typeof(Rigidbody)) as Rigidbody;

@@ -12,8 +12,6 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         [SerializeField]
         private AudioClip[] hayAudio = new AudioClip[2];// used for soundeffects
         private ParticleSystem hayvisual;//this is a particle system used for displaying rustling hay
-        [SerializeField]
-        private GameManager gamemanager;
         
        private  void Awake()
         {

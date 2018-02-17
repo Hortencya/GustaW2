@@ -9,15 +9,14 @@ public class Jug : MonoBehaviour
     private ThrowableObject throwable;
     private GameObject player;
     [SerializeField]
-    private GameManager gameManager;
 
     AudioSource jugsound; // is played when hiting the ground
-    public AudioClip[] reactionsound; // array of soundclips for different results  
+    public AudioClip[] reactionsound; // array of soundclips for different results
 
     void Awake()
     {        
         jugsound = GetComponent<AudioSource>();      
-        throwable = gameManager.playercharacter.GetComponent<ThrowableObject>();
+        throwable = GameManager.managerWasa.playercharacter.GetComponent<ThrowableObject>();
         jugPickedup = false;
         hitOnce = false; 
     }
