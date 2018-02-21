@@ -10,6 +10,9 @@ TagManager:
   - Trigger
   - InstructObject
   - GameManager
+  - Obstacle
+  - Danish
+  - Cameratransform
   layers:
   - Default
   - TransparentFX

@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour {
     public GameObject instructions;// Refers the ui object
     public GameObject playercharacter;// reference to the player object
     public GameObject holdobject;// reference needed specifically by throwable object
+    public Transform cameraRotationTransform;
 
 // I know that throwableObjects and Hideable objects is lacking in this class but the reason for that is that these types of objects never are
 // assigned in the inspector but through runtime functions, the player is refering differnet instances of these each time interacting with them
