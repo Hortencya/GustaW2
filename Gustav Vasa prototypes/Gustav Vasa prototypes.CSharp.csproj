@@ -73,6 +73,7 @@
     <Compile Include="Assets\Prototype scripts\GameManager.cs" />
     <Compile Include="Assets\Prototype scripts\Haybale.cs" />
     <Compile Include="Assets\Prototype scripts\HideObject.cs" />
+    <Compile Include="Assets\Prototype scripts\IndoorCameraChange.cs" />
     <Compile Include="Assets\Prototype scripts\Jug.cs" />
     <Compile Include="Assets\Prototype scripts\MoveVasa.cs" />
     <Compile Include="Assets\Prototype scripts\SoldierBehaviour.cs" />
