@@ -36,7 +36,22 @@ public class GameManager : MonoBehaviour {
             Destroy(gameObject);
         }
     }
-    
-	
-	
+    public GameObject GetPlayer()
+    {
+        return playercharacter;
+    }
+    public GameObject[] GetEnemys()
+    {
+        return danishSoldiers;
+    }
+    public Transform[] GetwayPoints()
+    {
+        return wayPointsInScene;
+    }
+    public Camera GetCamera() {
+        return mainCamera;
+    }
+
+
+
 }
