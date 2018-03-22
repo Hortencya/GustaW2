@@ -458,6 +458,14 @@ Prefab:
       propertyPath: m_Name
       value: house 5
       objectReference: {fileID: 0}
+    - target: {fileID: 1000012631877254, guid: b358e4de06432aa44a562ca239b45a0e, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000012631877254, guid: b358e4de06432aa44a562ca239b45a0e, type: 2}
+      propertyPath: m_NavMeshLayer
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b358e4de06432aa44a562ca239b45a0e, type: 2}
   m_IsPrefabParent: 0
@@ -748,6 +756,14 @@ Prefab:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 0ede9956ede44294fb46b0b67085da38, type: 2}
+    - target: {fileID: 1000012849488978, guid: cb6f14ce982611943b6da08bca8aa884, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000012849488978, guid: cb6f14ce982611943b6da08bca8aa884, type: 2}
+      propertyPath: m_NavMeshLayer
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: cb6f14ce982611943b6da08bca8aa884, type: 2}
   m_IsPrefabParent: 0
@@ -5355,16 +5371,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c97ed69f7bcd2843b37d1b3ebbde8c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  z: 0
-  rota: 0
   movementSpeed: 5
   turnSpeed: 2
   SkiingSpeed: 10
   SkiTurnSpeed: 0.5
-  SkiTurnDrag: -1
   IsSkiing: 0
-  testAngel: {x: 0, y: 0, z: 0}
-  teatOfV: {x: 0, y: 0, z: 0}
+  testDrag: 1
 --- !u!114 &1544861583
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -2,33 +2,38 @@
 using System.Collections;
 
 public class MoveVasa : MonoBehaviour {
-    float y;// movement x direction
-    public float z;// movement z direction
-    public float rota;// rotation
-    float fall;
-   
-    public float movementSpeed;// movement speed
-    public float turnSpeed;// speed for turning gustav vasa around
-    public float SkiingSpeed;
-    public float SkiTurnSpeed;
-    public float SkiTurnDrag = 1;
-    public bool IsSkiing;
-    
-    Vector3 movement;// vector for movement
+    float y;// rotation y direction input
+    float z;// movement z direction input
+
+    float rota;// rotation while walking 
+    public float movementSpeed;// movement speed while walking 
+    public float turnSpeed;// speed for turning while walking 
+
+    public float SkiingSpeed; // movement speed while skiing
+    public float SkiTurnSpeed; // turning speed While skiing
+    public bool IsSkiing; // skiing or walking
+    bool skiingKlicked = false; // to stop duble klicking IsSkiing
+    public bool IsGrounded; // on the gound or faling
+
+    Vector3 fixtRota;// is used to stop Z rotation
+    //components{
     Rigidbody player;
     CapsuleCollider skin;
     TrailRenderer trail;
-    bool IsGrounded;
-    
-    Vector3 oldRot;
-    Quaternion target;
-    bool klicked = false;
+    //}
+
+
+
+
+
+    public bool testDrag; // test
 
     //test variabler
-    public Vector3 testAngel;
-    public Vector3 teatOfV;
+    
+    
     // Use this for initialization
     void Start () {
+        // geting componets
         skin = GetComponent<CapsuleCollider>();
         player = GetComponent<Rigidbody>();// get the players transform component
         trail = GetComponent<TrailRenderer>();
@@ -38,23 +43,24 @@ public class MoveVasa : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        z = Input.GetAxis("Vertical");// get  input
-        y = Input.GetAxis("Horizontal");// get input
+        z = Input.GetAxis("Vertical");// get  input for movment
+        y = Input.GetAxis("Horizontal");// get input for rotation
         
     }
     void FixedUpdate()
     {
-        FixtZRotation();
+        FixtZRotation();// stops rotation on the Z axis
 
-        InputDelay("Fire2", 2.5f);
+        InputDelay("Fire2", 2.5f); // stops double klicking
         
         if (IsSkiing && IsGrounded)
         {
            
-            player.constraints = RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.None;
-           
+            player.constraints = RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.None; // enable rotation on the X axis
+           // lays the capsulecollidern down and use is as skies{
             skin.direction = 2;
             skin.center= new Vector3(0,0.3f,0);
+            //}
 
             trail.enabled = true;
 
@@ -64,10 +70,12 @@ public class MoveVasa : MonoBehaviour {
         }
         else if (IsGrounded)
         {
-            player.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
-            player.useGravity = false;
+            player.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ; // disable rotation on the X axis
+            player.useGravity = false;// stops sliding when walking
+            //stands the capsulecollidern up to use it normaly {
             skin.direction = 1;
             skin.center = new Vector3(0, 0.8f, 0);
+            //}
             trail.enabled = false;
 
             Walking();
@@ -80,78 +88,116 @@ public class MoveVasa : MonoBehaviour {
             Spining();
         }
 
-        teatOfV = player.transform.InverseTransformDirection(player.velocity) ;
 
-       
+
+
         
         
         //player.AddTorque(Vector3.up* x*1000, ForceMode.VelocityChange);
     }
+    /// <summary>
+    /// non phisikal movment
+    /// </summary>
     void Walking()
     {
         player.velocity = (player.transform.TransformDirection(Vector3.forward) * z * movementSpeed);// updated movement over time
         
     }
+    /// <summary>
+    /// non phisikal rotation
+    /// </summary>
     void Spining()
     {
         rota = player.rotation.eulerAngles.y + y * turnSpeed;// rotation equal to rotation + x-axis*turnspeed
         Quaternion target = Quaternion.Euler(0, rota, 0);//set rotation
         player.rotation = Quaternion.Slerp(transform.rotation, target, Time.deltaTime * 30);//update rotation
     }
+    /// <summary>
+    /// phisikal movment and rotation
+    /// </summary>
     void Skiing()
     {
         player.AddForce(transform.forward * z * movementSpeed, ForceMode.Acceleration);
         player.AddTorque(Vector3.up * y * SkiTurnSpeed, ForceMode.VelocityChange);
     }
+    /// <summary>
+    /// alter velosity vektor baset on ski orentation
+    /// </summary>
     void SkiVelocityChange()
     {
-
-        if ( player.transform.InverseTransformDirection(player.velocity).z < -0.5)
+        
+        if ( player.transform.InverseTransformDirection(player.velocity).z < -0.4)// bakvord sliding
         {
+            player.drag = 1;
             player.AddForce(player.transform.TransformDirection(Vector3.back).normalized - player.velocity.normalized, ForceMode.VelocityChange);
         }
-        else if(player.transform.InverseTransformDirection(player.velocity).z > 0.5)
+        else if(player.transform.InverseTransformDirection(player.velocity).z > 0.4)// forvord sliding
         {
+            player.drag = 1;
             player.AddForce(player.transform.TransformDirection(Vector3.forward).normalized - player.velocity.normalized, ForceMode.VelocityChange);
         }
-        else
+        else if((player.transform.eulerAngles.x> 350 || player.transform.eulerAngles.x < 10) && z==0 && testDrag)//  no sliding when purpendikeler on slop
         {
-           
+            
+            player.drag = 100;
+        }
+        else // other sliding
+        {
+            player.drag = 1;
         }
        
     }
-    bool Grounded()
+    /// <summary>
+    /// sheks if chrekter is standing on a surfase
+    /// may ned more work
+    /// </summary>
+    /// <returns></returns>
+    /// {
+    bool Grounded()// not in use, but might be useful
     {
         return Physics.Raycast(transform.position, Vector3.down, skin.bounds.extents.y + 0.05f);
     }
-    void FixtZRotation()
+    void OnCollisionStay(Collision collisionInfo)
     {
-        Vector3 oldRot = transform.rotation.eulerAngles;
-        transform.rotation = Quaternion.Euler(oldRot.x, oldRot.y, 0);
-    }
-
-    void OnCollisionStay(Collision collisionInfo) {
         IsGrounded = true;
-        testAngel = collisionInfo.contacts[0].normal;
+
     }
 
-    void OnCollisionExit(Collision collisionInfo) {
+    void OnCollisionExit(Collision collisionInfo)
+    {
         IsGrounded = false;
     }
+    //}
+
+    /// <summary>
+    /// stops rotation on Z axis
+    /// </summary>
+    void FixtZRotation()
+    {
+        fixtRota = transform.rotation.eulerAngles;
+        transform.rotation = Quaternion.Euler(fixtRota.x, fixtRota.y, 0);
+    }
+
+    /// <summary>
+    /// stops double kliking
+    /// </summary>
+    /// <param name="button"></param>
+    /// <param name="sec"></param>
+    /// {
     void InputDelay(string button, float sec )
     {
         if (Input.GetButton(button))
         {
 
-            if (IsSkiing && !klicked)
+            if (IsSkiing && !skiingKlicked)
             {
                 IsSkiing = false;
-                klicked = true;
+                skiingKlicked = true;
             }
-            else if (!klicked)
+            else if (!skiingKlicked)
             {
                 IsSkiing = true;
-                klicked = true;
+                skiingKlicked = true;
             }
             StartCoroutine(Reset(sec));
         }
@@ -159,6 +205,7 @@ public class MoveVasa : MonoBehaviour {
     IEnumerator Reset(float sec)
     {
         yield return new WaitForSeconds(sec);
-        klicked = false; 
+        skiingKlicked = false; 
     }
+    //}
 }
