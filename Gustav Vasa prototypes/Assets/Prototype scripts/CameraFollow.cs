@@ -1,11 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
+
 /// <summary>
 /// Needs a softer manipulation of the camera movements right now they come of as harsh, instead of locking the position of the camera to a specific point
 /// We should use a rotation formula that make the camera to always move towards the cameraposition modifier  object
 /// </summary>
 public class CameraFollow : MonoBehaviour {
     
+    private  Transform player;
     private  Transform camlookatPos;// target the camera looks after to follow
     [SerializeField]
     private Vector3 offset;
@@ -13,6 +15,7 @@ public class CameraFollow : MonoBehaviour {
     private Space offsetPostionSpace = Space.Self;
     [SerializeField]
     private bool cameraIsLocked = true;// bool that tells us the camera is locked ie outside of player control
+    
     private Camera main;// ref to main camera is set to the variable set in game manager
 
     // testvariables for cameramanipulation
@@ -26,6 +29,7 @@ public class CameraFollow : MonoBehaviour {
 
     private void Awake()
     {
+        player = GameObject.FindGameObjectWithTag("Cameratransform").transform;// find the player from within the scene
         origpos = new Vector3(0f, 1.23f, -3.77f);
         offset = origpos; // set correct offset to origpos  
         camlookatPos = GameObject.FindGameObjectWithTag("Cameratransform").transform;// find the player from within the scene       
@@ -47,9 +51,12 @@ public class CameraFollow : MonoBehaviour {
     }
     private void Update()
     {
+        Refresh();// updates the cameras position runtime
         DefineRotation();// rotates the camera according to the position defined
     }
+   
     /// <summary>
+    /// set up default camera behaviour
     /// set up default camera behaviour, can be modified later on dependent on states 
     /// </summary>
     public void Refresh ()
