@@ -13,8 +13,6 @@ TagManager:
   - Obstacle
   - Danish
   - Cameratransform
-  - CamLookbehind
-  - MinimumDist
   layers:
   - Default
   - TransparentFX
