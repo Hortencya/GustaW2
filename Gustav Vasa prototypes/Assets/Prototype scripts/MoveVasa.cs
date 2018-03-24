@@ -21,7 +21,7 @@ public class MoveVasa : MonoBehaviour {
     CapsuleCollider skin;
     TrailRenderer trail;
     //}
-
+    float orgDrag;
 
 
 
@@ -33,11 +33,12 @@ public class MoveVasa : MonoBehaviour {
     
     // Use this for initialization
     void Start () {
+        
         // geting componets
         skin = GetComponent<CapsuleCollider>();
         player = GetComponent<Rigidbody>();// get the players transform component
         trail = GetComponent<TrailRenderer>();
-        
+        orgDrag = player.drag;
     }
 	
 	// Update is called once per frame
@@ -128,12 +129,12 @@ public class MoveVasa : MonoBehaviour {
         
         if ( player.transform.InverseTransformDirection(player.velocity).z < -0.4)// bakvord sliding
         {
-            player.drag = 1;
+            player.drag = orgDrag;
             player.AddForce(player.transform.TransformDirection(Vector3.back).normalized - player.velocity.normalized, ForceMode.VelocityChange);
         }
         else if(player.transform.InverseTransformDirection(player.velocity).z > 0.4)// forvord sliding
         {
-            player.drag = 1;
+            player.drag = orgDrag;
             player.AddForce(player.transform.TransformDirection(Vector3.forward).normalized - player.velocity.normalized, ForceMode.VelocityChange);
         }
         else if((player.transform.eulerAngles.x> 350 || player.transform.eulerAngles.x < 10) && z==0 && testDrag)//  no sliding when purpendikeler on slop
@@ -143,7 +144,7 @@ public class MoveVasa : MonoBehaviour {
         }
         else // other sliding
         {
-            player.drag = 1;
+            player.drag = orgDrag;
         }
        
     }
