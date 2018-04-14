@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+namespace UnityStandardAssets.Characters.ThirdPerson { 
 public class ThrowableObject : MonoBehaviour {
     // this script is meant to do what the jug script earlier did but with any object tagged as "Throwable"    
     //private  GameObject holdobj;// use game manager instead
@@ -106,18 +106,14 @@ public class ThrowableObject : MonoBehaviour {
                 Debug.Log("hitground");
                     // a crach sound plays
                     //object destroyed
-                    CheckRange();
+                   // SendPosition(); kan kallas av underliggande script
                  }
         }
          
     }
-    void CheckRange()
+    public void SendPosition(Vector3 pos)// send in the hitposition
     {
-
-        // Check how many of the enemies are in range
-        // Place these enemies in separate list
-        // Alert all enemies in the enemiesInrange list and set their State change to DISTRACTED
-
+        GameManager.managerWasa.temporaryPos = pos;
     }
     
     void OnTriggerEnter(Collider other)
@@ -142,6 +138,7 @@ public class ThrowableObject : MonoBehaviour {
     }
 
 }
-    
+}
+
 
 
