@@ -43,13 +43,10 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         [SerializeField]
         private float sightDist = 10;
 
-        //variables for distracted
-        private Vector3 pointOfDistraction;
-        bool canHear = true;// bool for the enemy to hear, true for debug purposes
-
        private  void Awake()
         {
-            
+            // function that generates random ways for ai to walk on
+           // GenerateRandomWaypoints(); //does not work yet, searching for solutions
         }
         void Start()
         {
@@ -58,8 +55,6 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             agent = GetComponent<NavMeshAgent>();
             character = GetComponent<ThirdPersonCharacter>();// this can be changed to other script when we have a more specific movement script created
             //allow navmesh agent to update movement and rotation
-            // function that generates random ways for ai to walk on
-            waypoints = GameManager.managerWasa.RandomizeWayPoints(); //has to work better 
             agent.updatePosition = true;
             agent.updateRotation = false;
             // set inital state to patrol= danish enemies goes between points
@@ -69,23 +64,23 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             heightMultiplier = 1.36f;
 
         }
-        //private void GenerateRandomWaypoints()
-        //{
-        //    // this method uses a for loop to generate 
-        //    waypoints = new Transform[GameManager.managerWasa.wayPointsInScene.Length];
+        private void GenerateRandomWaypoints()
+        {
+            // this method uses a for loop to generate 
+            waypoints = new Transform[GameManager.managerWasa.wayPointsInScene.Length];
                         
-        //    for(waypointInd = 0; waypointInd>=GameManager.managerWasa.wayPointsInScene.Length; waypointInd++)
-        //    {
-        //        if (waypoints[waypointInd] == null)
-        //        {
-        //            // lets see how this one works but there might be aneed for another checker that compares the randomized waypoint with the 
-        //            // elements already in the list preenting two elements to be the same
-        //            int randomIndex = UnityEngine.Random.Range(0, GameManager.managerWasa.wayPointsInScene.Length - 1); 
-        //            // by some reason it needed to be clarified that i want to use Unitys random function rather than C# basic system.random
-        //            waypoints[waypointInd] = GameManager.managerWasa.wayPointsInScene[randomIndex];
-        //        }
-        //    }
-        //}
+            for(waypointInd = 0; waypointInd>=GameManager.managerWasa.wayPointsInScene.Length; waypointInd++)
+            {
+                if (waypoints[waypointInd] == null)
+                {
+                    // lets see how this one works but there might be aneed for another checker that compares the randomized waypoint with the 
+                    // elements already in the list preenting two elements to be the same
+                    int randomIndex = UnityEngine.Random.Range(0, GameManager.managerWasa.wayPointsInScene.Length - 1); 
+                    // by some reason it needed to be clarified that i want to use Unitys random function rather than C# basic system.random
+                    waypoints[waypointInd] = GameManager.managerWasa.wayPointsInScene[randomIndex];
+                }
+            }
+        }
         IEnumerator FSM()
         {
             //statemachine defining the different states the ai goes through
@@ -187,44 +182,13 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
            
         }
-        /// <summary>
-        /// distraction method that calls the enemies in the scene to a specific positions
-        /// </summary>
         void Distraction()
         {
-            if (canHear)
-            {// change to run speed
-                Debug.Log(canHear);
-                agent.speed = chasespeed;
-                Debug.Log(chasespeed);
-                // set the alerting throwable object or other alert object to the navmesh agents destination
-                pointOfDistraction = GameManager.managerWasa.temporaryPos;
-                Debug.Log(pointOfDistraction);
-                agent.SetDestination(pointOfDistraction);
-                Debug.Log("sent off to desination");
-                character.Move(agent.desiredVelocity, false, false);
-                Debug.Log("moves");             
-            }
+            // change to run speed
+            // set the alerting throwable object or other alert object to the navmesh agents destination
 
-            else
-            {
-                state = SoldierBehaviour.State.PATROL;
-                Debug.Log("sent patroling");
-            }
         }
-        /// <summary>
-        /// Method that set the distraction state to be active it is called by other methods
-        /// </summary>
-        public void SetDistractionState()
-        {
-            if (GameManager.managerWasa.callenemy)
-            {
-                state = SoldierBehaviour.State.DISTRACTED;
-                Debug.Log(state);
-            }
-
-         }
-            void OnTriggerStay(Collider coll)
+        void OnTriggerStay(Collider coll)
         {
             if (coll.tag == "Player")
             {               
@@ -234,10 +198,9 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             }
         
         }
-
         void Update()
         {
-            StartCoroutine("FSM");          
+            StartCoroutine("FSM");
         }
         
     }
