@@ -20,6 +20,7 @@ public class MoveVasa : MonoBehaviour {
     Rigidbody player;
     CapsuleCollider skin;
     TrailRenderer trail;
+    Camera camera;
     //}
     float orgDrag;
 
@@ -38,6 +39,7 @@ public class MoveVasa : MonoBehaviour {
         skin = GetComponent<CapsuleCollider>();
         player = GetComponent<Rigidbody>();// get the players transform component
         trail = GetComponent<TrailRenderer>();
+        camera = GameManager.managerWasa.GetCamera();
         orgDrag = player.drag;
     }
 	
@@ -101,16 +103,19 @@ public class MoveVasa : MonoBehaviour {
     /// </summary>
     void Walking()
     {
-        player.velocity = (player.transform.TransformDirection(Vector3.forward) * z * movementSpeed);// updated movement over time
-        
+        //player.velocity = (player.transform.TransformDirection(Vector3.forward) * z * movementSpeed);// updated movement over time
+        player.velocity = camera.transform.forward * z * movementSpeed+ camera.transform.right * y * movementSpeed;
     }
     /// <summary>
     /// non phisikal rotation
     /// </summary>
     void Spining()
     {
-        rota = player.rotation.eulerAngles.y + y * turnSpeed;// rotation equal to rotation + x-axis*turnspeed
+        //rota = player.rotation.eulerAngles.y + y * turnSpeed;// rotation equal to rotation + x-axis*turnspeed
+        rota = camera.transform.rotation.eulerAngles.y;
         Quaternion target = Quaternion.Euler(0, rota, 0);//set rotation
+
+       
         player.rotation = Quaternion.Slerp(transform.rotation, target, Time.deltaTime * 30);//update rotation
     }
     /// <summary>
