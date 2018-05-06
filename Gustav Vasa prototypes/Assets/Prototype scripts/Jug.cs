@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace UnityStandardAssets.Characters.ThirdPerson
-{
+
+
     public class Jug : MonoBehaviour
     {
         // This script have been reworked to only represent the functions of the actual Jug object, all the throwing and picking up of object are now handled by the throwable object class
@@ -20,10 +20,13 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         void Awake()
         {
             jugsound = GetComponent<AudioSource>();
-            throwable = GameManager.managerWasa.playercharacter.GetComponent<ThrowableObject>();
-            jugPickedup = false;
+            jugPickedup = false;  
             hitOnce = false;
             contact = false;
+        }
+        void Start()
+        {
+            throwable = GameManager.managerWasa.playercharacter.GetComponent<ThrowableObject>();
         }
         // Important note the method called GrabEffect is called the same for every object used by throwable object
         // the methods are named the same but contains different things and refer different objects, ie jug.Grabeffects, glass.Grabeffects, etc
@@ -44,7 +47,6 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         }
         private void DecideEffects()
         {
-
             // Number of if-statements that determines which effects are playing
             if (throwable.PickedUP && !jugPickedup)
             {
@@ -94,5 +96,5 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
         }
     }
-}
+
     

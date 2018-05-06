@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-namespace UnityStandardAssets.Characters.ThirdPerson { 
+ 
 public class ThrowableObject : MonoBehaviour {
     // this script is meant to do what the jug script earlier did but with any object tagged as "Throwable"    
     //private  GameObject holdobj;// use game manager instead
@@ -15,6 +15,7 @@ public class ThrowableObject : MonoBehaviour {
     private bool hitGround; // when true the objects specific sounds and hit animations are played and the enemy are alerted through method in this script
     private bool isthrown;// calls method that handles the physics for throwing
     private bool inRange; //determines if the player are in range of the object to pick it up
+    private bool pressedXonce;// bool to check if a player has pressed x(reset this when hitground is true)
     private float throwforce = 450;// assigned according to which object are being used
 
     // Scripts refered to in throweable object, here Jug and other scripts for instance glass, woodenpiece, cheramics etc
@@ -41,6 +42,7 @@ public class ThrowableObject : MonoBehaviour {
         // This method sets up the script so that the player can pick up certain objects
         inRange = false;// Inrange is false at start
         pickedUp = false;// sets pickedup to false
+        pressedXonce = false;
        
     }
     void Awake ()
@@ -56,9 +58,7 @@ public class ThrowableObject : MonoBehaviour {
             // Change the instructions from empty to given instruction  
            GameManager.managerWasa.instructions.GetComponent<TextMesh>().text = "Press X to pick up";
             PickUp();// calls the function for picking the Jug up from the ground
-        }
-        
-                    
+        }                   
 
         if (pickedUp)
         {
@@ -70,24 +70,26 @@ public class ThrowableObject : MonoBehaviour {
         }
 
     }
-
-
+  
     void PickUp()
     {
         // Check if the player press the X button on the keyboard
-        if (Input.GetKeyDown(KeyCode.X))
+        if (!pressedXonce&&Input.GetKeyDown(KeyCode.X))
         {
-            GameManager.managerWasa.instructions.GetComponent<TextMesh>().text = "Left-click to throw";
+            GameManager.managerWasa.instructions.GetComponent<TextMesh>().text = "Press X to throw";
             pickedUp = true;
             // parent the current object to the holdobject
             currentPickup.transform.parent = GameManager.managerWasa.holdobject.transform;
             // change transform.position of the jug to where the players hands are supposed to be
-            currentPickup.transform.position = GameManager.managerWasa.holdobject.transform.position;        
-        }
+            currentPickup.transform.position = GameManager.managerWasa.holdobject.transform.position;
+            StartCoroutine(InteractWait());
+                       
+            
+            }
     }
     void Throwdistraction()
     {
-        if (Input.GetMouseButtonDown(1))
+        if ( pressedXonce&& Input.GetKeyDown(KeyCode.X))
             {
                 isthrown = true;// allow checkground to be run
                 GameManager.managerWasa.instructions.GetComponent<TextMesh>().text = string.Empty;       
@@ -104,12 +106,21 @@ public class ThrowableObject : MonoBehaviour {
                 if (HitGround== true)// use of property instead of instance variable ensures that right value is assigned
                 {
                 Debug.Log("hitground");
+                    StartCoroutine(InteractWait());                    
                     // a crach sound plays
                     //object destroyed
                    // SendPosition(); kan kallas av underliggande script
                  }
         }
          
+    }
+    private IEnumerator InteractWait()
+    {
+            yield return new WaitForSeconds(3);
+            if (pressedXonce)
+                pressedXonce = false;
+            else
+                pressedXonce = true;
     }
     public void SendPosition(Vector3 pos)// send in the hitposition
     {
@@ -122,10 +133,8 @@ public class ThrowableObject : MonoBehaviour {
         {                  
             currentPickup = other.gameObject;// sets the current pickedup reference to the object the player is currently interacting with
             inRange = true;
-            
-           
-        }
-         
+   
+        }        
     }
     void OnTriggerExit(Collider other)
     {
@@ -138,7 +147,7 @@ public class ThrowableObject : MonoBehaviour {
     }
 
 }
-}
+
 
 
 

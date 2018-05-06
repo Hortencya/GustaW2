@@ -70,6 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Prototype scripts\CameraFollow.cs" />
+    <Compile Include="Assets\Prototype scripts\EnemyMove.cs" />
     <Compile Include="Assets\Prototype scripts\GameManager.cs" />
     <Compile Include="Assets\Prototype scripts\Haybale.cs" />
     <Compile Include="Assets\Prototype scripts\HideObject.cs" />

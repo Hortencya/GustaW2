@@ -3,19 +3,18 @@ using UnityEngine;
 using System.Collections;
 
 
-namespace UnityStandardAssets.Characters.ThirdPerson
-{
+
     public class SoldierBehaviour : MonoBehaviour
     {
         
-        public NavMeshAgent agent;
-        public ThirdPersonCharacter character;
+     public NavMeshAgent agent;
+    //public ThirdPersonCharacter character;
+    public EnemyMove enemy;
 
         public enum State
         {
             PATROL,
             CHASE,
-            INVESTIGATE,
             DISTRACTED,
         }
         public State state;
@@ -25,17 +24,13 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         public Transform[] waypoints;
         [SerializeField]       
         private int waypointInd = 0;
-        [SerializeField]
-        private float patrolspeed = 0.5f;
 
-        // Variables for chasing
         [SerializeField]
-        private float chasespeed = 1f;
-
+        private string mystate;
         // Variables for investigate
         private Vector3 investigateSpot;
         private float timer = 0;
-        public float investigateWait = 10;
+        public float investigateWait = 0.01f;
 
         // Variables for sight
         [SerializeField]
@@ -56,40 +51,32 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             //assign the references for the agents and character scripts
             
             agent = GetComponent<NavMeshAgent>();
-            character = GetComponent<ThirdPersonCharacter>();// this can be changed to other script when we have a more specific movement script created
+            //character = GetComponent<ThirdPersonCharacter>();// this can be changed to other script when we have a more specific movement script created
+            enemy = GetComponent<EnemyMove>();// get the movement script ref
             //allow navmesh agent to update movement and rotation
             // function that generates random ways for ai to walk on
             waypoints = GameManager.managerWasa.RandomizeWayPoints(); //has to work better 
-            agent.updatePosition = true;
+            agent.updatePosition = false;
             agent.updateRotation = false;
             // set inital state to patrol= danish enemies goes between points
             state = SoldierBehaviour.State.PATROL;
             // ai is alivve
             alive = true;
-            heightMultiplier = 1.36f;
+            heightMultiplier = 0.36f;
 
         }
-        //private void GenerateRandomWaypoints()
-        //{
-        //    // this method uses a for loop to generate 
-        //    waypoints = new Transform[GameManager.managerWasa.wayPointsInScene.Length];
-                        
-        //    for(waypointInd = 0; waypointInd>=GameManager.managerWasa.wayPointsInScene.Length; waypointInd++)
-        //    {
-        //        if (waypoints[waypointInd] == null)
-        //        {
-        //            // lets see how this one works but there might be aneed for another checker that compares the randomized waypoint with the 
-        //            // elements already in the list preenting two elements to be the same
-        //            int randomIndex = UnityEngine.Random.Range(0, GameManager.managerWasa.wayPointsInScene.Length - 1); 
-        //            // by some reason it needed to be clarified that i want to use Unitys random function rather than C# basic system.random
-        //            waypoints[waypointInd] = GameManager.managerWasa.wayPointsInScene[randomIndex];
-        //        }
-        //    }
-        //}
-        IEnumerator FSM()
+    //general update once per frame
+    void FixedUpdate()
+    {
+        StartCoroutine("FSM");
+        
+        agent.nextPosition = transform.position;
+    }
+   
+    IEnumerator FSM()
         {
             //statemachine defining the different states the ai goes through
-            while (alive)
+            if (alive)
             {
                 switch (state)
                 {
@@ -98,13 +85,10 @@ namespace UnityStandardAssets.Characters.ThirdPerson
                         Patrol();
                         break;
                     case State.CHASE:
-                        // calls methd for chasing the player
-                        Chase();
+                    // calls methd for chasing the player
+                    Chase();
                         break;
-                        // calls method for investigating a specific spot
-                    case State.INVESTIGATE:
-                        Investigate();
-                        break;
+                                        
                     case State.DISTRACTED:
                         // calls a method that make ai character walk in direction towards a distraction point
                         Distraction();
@@ -117,11 +101,12 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
         void Patrol()
         {
-            agent.speed = patrolspeed;
+            //agent.speed = patrolspeed;
             if (Vector3.Distance(this.transform.position, waypoints[waypointInd].transform.position) >= 2)
             {
                 agent.SetDestination(waypoints[waypointInd].transform.position);
-                character.Move(agent.desiredVelocity, false, false);
+            //character.Move(agent.desiredVelocity, false, false);
+            enemy.MoveForward(agent.desiredVelocity, true);//skiing movement test
             }
             else if (Vector3.Distance(this.transform.position, waypoints[waypointInd].transform.position) <= 2)
             {
@@ -133,77 +118,82 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             }
             else
             {
-                character.Move(Vector3.zero,false,false);
+                //character.Move(Vector3.zero,false,false);
             }
         }
 
         void Chase()
         {
-            agent.speed = chasespeed;
-            agent.SetDestination(GameObject.FindGameObjectWithTag("Player").transform.position);
-            character.Move(agent.desiredVelocity, false, false);
-        }
-
-        void Investigate()
-        {
-
-            timer += Time.deltaTime;
-            RaycastHit hit;
-
+        //timer += Time.deltaTime;
+        //if(timer <= investigateWait)
+        
             agent.SetDestination(this.transform.position);
-            character.Move(Vector3.zero, false, false);
             transform.LookAt(investigateSpot);
-            if (timer <= investigateWait)
-            {
-                state = SoldierBehaviour.State.PATROL;
-                timer = 0;
-            }
-            // debuggers
-            Debug.DrawRay(transform.position + Vector3.up * heightMultiplier, transform.forward * sightDist, Color.green);
-            Debug.DrawRay(transform.position + Vector3.up * heightMultiplier, (transform.forward+transform.right).normalized * sightDist, Color.green);
-            Debug.DrawRay(transform.position + Vector3.up * heightMultiplier, (transform.forward-transform.right).normalized * sightDist, Color.green);
-            // rays
-            if (Physics.Raycast(transform.position + Vector3.up * heightMultiplier, transform.forward, out hit, sightDist))
-            {
-                if (hit.collider.gameObject.tag == "Player")
-                {
-                    state = SoldierBehaviour.State.CHASE;                   
-                }
-            }
-            if (Physics.Raycast(transform.position + Vector3.up * heightMultiplier, (transform.forward+transform.right).normalized, out hit, sightDist))
-            {
-                if (hit.collider.gameObject.tag == "Player")
-                {
-                    state = SoldierBehaviour.State.CHASE;
-                }
-            }
-            if (Physics.Raycast(transform.position + Vector3.up * heightMultiplier, (transform.forward-transform.right).normalized, out hit, sightDist))
-            {
-                if (hit.collider.gameObject.tag == "Player")
-                {
-                    state = SoldierBehaviour.State.CHASE;
-                }
-            }
+            Debug.Log("hey! You");                
+            //agent.speed = chasespeed;
+            agent.SetDestination(GameObject.FindGameObjectWithTag("Player").transform.position);
+            //character.Move(agent.desiredVelocity, false, false);
+            enemy.MoveForward(agent.desiredVelocity, true);              
+        }
+        
+        //void Investigate()
+        //{
+
+        //    timer += Time.deltaTime;
+        //    RaycastHit hit;
+
+        //    agent.SetDestination(this.transform.position);
+        //    //character.Move(Vector3.zero, false, false);
+        //    transform.LookAt(investigateSpot);
+        //    if (timer <= investigateWait)
+        //    {
+        //        state = SoldierBehaviour.State.PATROL;
+        //        timer = 0;
+        //    }
+        //    // debuggers
+        //    Debug.DrawRay(transform.position + Vector3.up * heightMultiplier, transform.forward * sightDist, Color.green);
+        //    Debug.DrawRay(transform.position + Vector3.up * heightMultiplier, (transform.forward+transform.right).normalized * sightDist, Color.green);
+        //    Debug.DrawRay(transform.position + Vector3.up * heightMultiplier, (transform.forward-transform.right).normalized * sightDist, Color.green);
+        //    // rays
+        //    if (Physics.Raycast(transform.position + Vector3.up * heightMultiplier, transform.forward, out hit, sightDist))
+        //    {
+        //    Debug.Log(hit.collider.gameObject.tag);
+        //        if (hit.collider.gameObject.tag == "Player")
+        //        {
+        //        Debug.Log("fgiu");
+        //            state = SoldierBehaviour.State.CHASE;                   
+        //        }
+        //    }
+        //    if (Physics.Raycast(transform.position + Vector3.up * heightMultiplier, (transform.forward+transform.right).normalized, out hit, sightDist))
+        //    {
+        //        if (hit.collider.gameObject.tag == "Player")
+        //        {
+        //            state = SoldierBehaviour.State.CHASE;
+        //        }
+        //    }
+        //    if (Physics.Raycast(transform.position + Vector3.up * heightMultiplier, (transform.forward-transform.right).normalized, out hit, sightDist))
+        //    {
+        //        if (hit.collider.gameObject.tag == "Player")
+        //        {
+        //            state = SoldierBehaviour.State.CHASE;
+        //        }
+        //    }
 
            
-        }
+        //}
         /// <summary>
         /// distraction method that calls the enemies in the scene to a specific positions
         /// </summary>
         void Distraction()
         {
             if (canHear)
-            {// change to run speed
-                Debug.Log(canHear);
-                agent.speed = chasespeed;
-                Debug.Log(chasespeed);
+            {// change to run speed               
+                //agent.speed = chasespeed;                
                 // set the alerting throwable object or other alert object to the navmesh agents destination
                 pointOfDistraction = GameManager.managerWasa.temporaryPos;
-                Debug.Log(pointOfDistraction);
                 agent.SetDestination(pointOfDistraction);
-                Debug.Log("sent off to desination");
-                character.Move(agent.desiredVelocity, false, false);
-                Debug.Log("moves");             
+            //character.Move(agent.desiredVelocity, false, false); 
+            enemy.MoveForward(agent.desiredVelocity, true);          
             }
 
             else
@@ -228,18 +218,14 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         {
             if (coll.tag == "Player")
             {               
-                state = SoldierBehaviour.State.INVESTIGATE;
-                investigateSpot = coll.gameObject.transform.position;             
-               
+                state = SoldierBehaviour.State.CHASE;
+                investigateSpot = coll.gameObject.transform.position;                            
             }
         
         }
 
-        void Update()
-        {
-            StartCoroutine("FSM");          
-        }
+        
         
     }
-}
+
 

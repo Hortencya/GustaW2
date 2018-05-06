@@ -15,6 +15,7 @@ TagManager:
   - Cameratransform
   - CamLookbehind
   - MinimumDist
+  - flooring
   layers:
   - Default
   - TransparentFX

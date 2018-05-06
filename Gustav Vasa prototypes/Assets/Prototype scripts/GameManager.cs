@@ -30,6 +30,11 @@ public class GameManager : MonoBehaviour {
         DontDestroyOnLoad(gameObject);
         
 	}
+    // property för camera
+    public Camera GetCamera
+    {
+        get { return mainCamera; }
+    }
     private void InitializationOnAwake()
     {
         if(managerWasa == null)
