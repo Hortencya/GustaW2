@@ -39,7 +39,7 @@ public class MoveVasa : MonoBehaviour {
         skin = GetComponent<CapsuleCollider>();
         player = GetComponent<Rigidbody>();// get the players transform component
         trail = GetComponent<TrailRenderer>();
-        camera = GameManager.managerWasa.GetCamera();
+        camera = GameManager.managerWasa.GetCamera;
         orgDrag = player.drag;
     }
 	
@@ -104,7 +104,7 @@ public class MoveVasa : MonoBehaviour {
     void Walking()
     {
         //player.velocity = (player.transform.TransformDirection(Vector3.forward) * z * movementSpeed);// updated movement over time
-        player.velocity = camera.transform.forward * z * movementSpeed+ camera.transform.right * y * movementSpeed;
+        player.velocity = new Vector3( camera.transform.forward.x,0, camera.transform.forward.z) * z * movementSpeed+ camera.transform.right * y * movementSpeed;
     }
     /// <summary>
     /// non phisikal rotation
