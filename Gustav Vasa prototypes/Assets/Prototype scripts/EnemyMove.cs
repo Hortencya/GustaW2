@@ -3,7 +3,6 @@ using System.Collections;
 
 public class EnemyMove : MonoBehaviour
 {
-
     Rigidbody body;
     float movementSpeed=5f;
     float SkiTurnSpeed = 0.5f;
@@ -41,10 +40,42 @@ public class EnemyMove : MonoBehaviour
 
             body.rotation = Quaternion.Slerp(transform.rotation, sudo.rotation, Time.deltaTime * 30);
         }
-        else {
+        else
+        {
             body.AddForce(transform.up* -1, ForceMode.VelocityChange);
         }
         SkiVelocityChange();
+    }
+    /// <summary>
+    /// This method are called when the ai is walking normally this is implemented similar to the above method for skiing
+    /// </summary>
+    public void Walking(Vector3 direction)
+    {
+        movementSpeed = 3;
+        if (IsGrounded)
+        {
+            // define our transform
+            sudo.position = body.transform.position;
+            body.AddForce(transform.forward * movementSpeed);// I dont know if I should include a forcemode yet
+            sudo.LookAt(body.position + direction);
+            body.rotation = Quaternion.Slerp(transform.rotation, sudo.rotation, Time.deltaTime * 30);
+        }
+        else
+        {
+            // if we are not grounded do not move
+            body.AddForce(transform.up * -1, ForceMode.VelocityChange);
+        }
+        
+    }
+    /// <summary>
+    /// Method for stoping movement of enemies
+    /// </summary>
+    public void Stop()
+    {
+        sudo.position = body.transform.position;
+        body.transform.Translate(Vector3.zero);      
+        //keeps the rotation consistent
+        body.rotation = Quaternion.Slerp(transform.rotation, sudo.rotation, Time.deltaTime * 30);
     }
     void SkiVelocityChange()
     {
@@ -79,6 +110,8 @@ public class EnemyMove : MonoBehaviour
         }
         else if (!skiing)
         {
+            // calls the walk method
+            Walking(direction);
         }
     }
     void OnCollisionStay(Collision collisionInfo)

@@ -2,13 +2,12 @@
 using UnityEngine;
 using System.Collections;
 
-
-
     public class SoldierBehaviour : MonoBehaviour
-    {
+{
         
-     public NavMeshAgent agent;
-    //public ThirdPersonCharacter character;
+    public NavMeshAgent agent;
+    [SerializeField]
+    private bool activeSkiing;//this is a bool to determine if the ai should use skiing or not.
     public EnemyMove enemy;
 
         public enum State
@@ -40,11 +39,11 @@ using System.Collections;
 
         //variables for distracted
         private Vector3 pointOfDistraction;
-        bool canHear = true;// bool for the enemy to hear, true for debug purposes
+        bool canHear;// bool for the enemy to hear
 
        private  void Awake()
         {
-            
+        canHear = false;
         }
         void Start()
         {
@@ -87,11 +86,11 @@ using System.Collections;
                     case State.CHASE:
                     // calls methd for chasing the player
                     Chase();
-                        break;
-                                        
+                        break;                                        
                     case State.DISTRACTED:
-                        // calls a method that make ai character walk in direction towards a distraction point
-                        Distraction();
+                    // calls a method that make ai character walk in direction towards a distraction point
+                    DetermineHearingRange(GameManager.managerWasa.temporaryPos);
+                    Distraction();
                         break;
                        
                 }
@@ -105,8 +104,13 @@ using System.Collections;
             if (Vector3.Distance(this.transform.position, waypoints[waypointInd].transform.position) >= 2)
             {
                 agent.SetDestination(waypoints[waypointInd].transform.position);
-            //character.Move(agent.desiredVelocity, false, false);
-            enemy.MoveForward(agent.desiredVelocity, true);//skiing movement test
+                //character.Move(agent.desiredVelocity, false, false);
+
+                // if statement aroud the below determining if we are skiing or not
+                if (activeSkiing)
+                    enemy.MoveForward(agent.desiredVelocity, true);//skiing movement test
+                else
+                    enemy.MoveForward(agent.desiredVelocity, false);
             }
             else if (Vector3.Distance(this.transform.position, waypoints[waypointInd].transform.position) <= 2)
             {
@@ -132,8 +136,11 @@ using System.Collections;
             Debug.Log("hey! You");                
             //agent.speed = chasespeed;
             agent.SetDestination(GameObject.FindGameObjectWithTag("Player").transform.position);
-            //character.Move(agent.desiredVelocity, false, false);
-            enemy.MoveForward(agent.desiredVelocity, true);              
+        //character.Move(agent.desiredVelocity, false, false);
+        if (activeSkiing)
+            enemy.MoveForward(agent.desiredVelocity, true);
+        else
+            enemy.MoveForward(agent.desiredVelocity, false);        
         }
         
         //void Investigate()
@@ -182,26 +189,66 @@ using System.Collections;
            
         //}
         /// <summary>
+        /// hearing range for ai enemy. Uses a vector 3. distance to determine how far away the ai is from the point of distraction
+        /// </summary>
+        /// <param name="pointofHearing"></param>
+        private void DetermineHearingRange(Vector3 pointofHearing)
+        {
+        if (Vector3.Distance(transform.position, pointofHearing) <= 25)
+        {
+            canHear = true;
+        }
+        else
+            canHear = false;
+        }
+        /// <summary>
         /// distraction method that calls the enemies in the scene to a specific positions
         /// </summary>
-        void Distraction()
-        {
+       void Distraction()
+       {
+        // determine if the ai can hear
             if (canHear)
             {// change to run speed               
-                //agent.speed = chasespeed;                
-                // set the alerting throwable object or other alert object to the navmesh agents destination
                 pointOfDistraction = GameManager.managerWasa.temporaryPos;
-                agent.SetDestination(pointOfDistraction);
-            //character.Move(agent.desiredVelocity, false, false); 
-            enemy.MoveForward(agent.desiredVelocity, true);          
-            }
+            //Move towards the point of distraction while more than 2 units away from it
+                if(Vector3.Distance(this.transform.position, pointOfDistraction) >= 2)
+                { 
+                    agent.SetDestination(pointOfDistraction);
+
+                    if (activeSkiing)// distractions may happen while skiing such as threes falling or Vasa throwing some equipment to the side beside him/ vasa traverse nearby a station of danish soliders
+                        enemy.MoveForward(agent.desiredVelocity, true);
+                    else
+                        enemy.MoveForward(agent.desiredVelocity, false);
+             }
+                // to omitt orbit reaktion when the goal is reached that will otherwise make the ai circle arount the destination while searching a new path
+                // i decided to stop them for a shorter period of time before going back to patrolling
+            else if (Vector3.Distance(this.transform.position, pointOfDistraction) <= 2)
+            {                
+                // we stop the enemy when they have reached their point of distraction
+                agent.SetDestination(this.transform.position);              
+                enemy.Stop();
+                //transform.LookAt(pointOfDistraction);
+                //call a yield return wait for secounds before reseting to patrolling
+                StartCoroutine(ReactWait());                                         
+           }
+       }
 
             else
             {
                 state = SoldierBehaviour.State.PATROL;
-                Debug.Log("sent patroling");
+                
             }
         }
+    /// <summary>
+    /// Ienumerator used to make enemies paus between different actions such as being distracted or searhing an area and returning to the patrol bussiness
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator ReactWait()
+    {
+        yield return new WaitForSeconds(4);     
+        state = SoldierBehaviour.State.PATROL;
+        canHear = false;
+    }
         /// <summary>
         /// Method that set the distraction state to be active it is called by other methods
         /// </summary>
@@ -226,6 +273,6 @@ using System.Collections;
 
         
         
-    }
+}
 
 

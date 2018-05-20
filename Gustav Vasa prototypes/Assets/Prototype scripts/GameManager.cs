@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour {
     public Camera mainCamera;// reference to the main camera;
     public GameObject[] danishSoldiers;// reference to the enemy object
     public Transform[] wayPointsInScene;// reference to the waypints that marks enemymovement
+    public Transform[] critterWaypoints;// waypoints for smaller animals like geese, cows, goats, hens etc. 
     public GameObject instructions;// Refers the ui object
     public GameObject playercharacter;// reference to the player object
     public GameObject holdobject;// reference needed specifically by throwable object

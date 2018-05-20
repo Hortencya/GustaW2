@@ -116,7 +116,7 @@ public class ThrowableObject : MonoBehaviour {
     }
     private IEnumerator InteractWait()
     {
-            yield return new WaitForSeconds(3);
+            yield return new WaitForSeconds(1);
             if (pressedXonce)
                 pressedXonce = false;
             else

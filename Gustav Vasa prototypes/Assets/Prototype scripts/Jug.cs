@@ -8,10 +8,10 @@ using System.Collections;
         // This script have been reworked to only represent the functions of the actual Jug object, all the throwing and picking up of object are now handled by the throwable object class
         private bool jugPickedup;//determines if the jug has been just been picked up(hinders effects from happen over and over again)
         private bool hitOnce;// hinders the jug from playing crasch effects more than once
-        bool setDistractioncall;
+        bool setDistractioncall;// determines if we have sent the point of distraction to the enemies yet.
         private ThrowableObject throwable;
         private GameObject player;
-        private bool contact;
+        private bool contact;// Check if the vase has contact with the ground/terrain
         [SerializeField]
 
         AudioSource jugsound; // is played when hiting the ground
@@ -34,8 +34,7 @@ using System.Collections;
         {
             jugsound.clip = reactionsound[0];
             jugsound.Play();
-            jugPickedup = true;
-            Debug.Log("played grabeffects");
+            jugPickedup = true;           
 
         }
         private void Crasheffects()
@@ -60,32 +59,31 @@ using System.Collections;
 
             }
         }
-        //this checks for when the jup hits the ground
+        //this checks for when the jug hits the ground and then sets off the function inside of the ai that calls the soldiers to the spot
         void OnCollisionEnter(Collision collision)
-        {
-            foreach (ContactPoint con in collision.contacts)
-            {
-                Debug.DrawRay(con.point, con.normal, Color.red);
-            }
+        {        
+        //check if the throwable object is thrown
             if (throwable.IsThrown == true)// ask for the property rather than instance variable
             {
+            // set hit ground to true
                 throwable.HitGround = true;// set the property rather than the instance variable  
-                if (!contact)
+                if (!contact)// if bool contact is false
                 {
-                    ContactPoint con = collision.contacts[0];
-                    Vector3 pos = con.point;
-                    throwable.SendPosition(pos);
-                    GameManager.managerWasa.SetDistractedBool();
-                    Debug.Log("distraction started");
-                    contact = true;                                  
+                    ContactPoint con = collision.contacts[0];// contact point zero found
+                    Vector3 pos = con.point;// contact point zeros vector 3 found
+                    throwable.SendPosition(pos);// send position of contactpoint 0 to the throwable object
+                    GameManager.managerWasa.SetDistractedBool();// set bool for distraction to true                   
+                    contact = true;  // no contact is true.                                
                 }
                 if (!setDistractioncall)
                 {
-                    foreach(GameObject o in GameManager.managerWasa.danishSoldiers)
+                // if set distractionbool above is false the program goes through every enemy in the scene and starts their distraction state
+                foreach (GameObject o in GameManager.managerWasa.danishSoldiers)
                     {
-                        o.GetComponent<SoldierBehaviour>().SetDistractionState();
+                        o.GetComponent<SoldierBehaviour>().SetDistractionState();// set the state of distraction inside of the ai.
                     }
-                    setDistractioncall = true;
+                    setDistractioncall = true;// when the above is done once the setdistraction bool is turned true thus it would not happen more than once.
+                
                 }
                 
             }
