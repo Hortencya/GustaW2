@@ -20,7 +20,8 @@ public class CameraFollow : MonoBehaviour
    
     
     private Vector3 origPos;// variable that saves down the original position of the camera
-    
+    [SerializeField]
+    private Quaternion origRot;
     
     [SerializeField]// this value might be needed to be adjusted in the inspector and is thus serialized
     private float smoothSpeed;// the camera uses this to determine how fast it moves toward the target object/OBS it has to be bigger than 0 but smaller than 1
@@ -40,9 +41,10 @@ public class CameraFollow : MonoBehaviour
     private void Awake()
     {
         origPos = offset;
+
        // offset = origPos; // set correct offset to origpos        
         camlookatPos = GameObject.FindGameObjectWithTag("Cameratransform").transform;// find the player from within the scene   
-       
+        origRot = camlookatPos.localRotation ;
 
     }
     private void Start()
@@ -66,6 +68,7 @@ public class CameraFollow : MonoBehaviour
     }
     private void Update()
     {
+        
         //DefineRotation();// rotates the camera according to the position defined  
         CheckPressedMousebutton();
        
@@ -158,15 +161,20 @@ public class CameraFollow : MonoBehaviour
     //    /// </summary>
     public void RotAfterMousePos()
     {
+
         // rotation of camera after mouse position while left mous button is held
+
         float mouseX = Input.GetAxis("Mouse X");
+        
        
         float mouseY = Input.GetAxis("Mouse Y");
         if ((rotaY < 50 || -mouseY < 0) && (rotaY > -50 || -mouseY > 0))
         {
             rotaY -= mouseY * camSpeedY;
         }
-        camlookatPos.transform.rotation = Quaternion.Euler(rotaY, transform.rotation.eulerAngles.y + mouseX*camSpeedX,0);
+        if (Input.GetButton("Fire1")) { camlookatPos.transform.localRotation = Quaternion.Slerp(camlookatPos.transform.localRotation, origRot, .1f); }//camlookatPos.transform.rotation = Quaternion.Euler(rotaY, transform.TransformDirection( camlookatPos.parent.rotation.eulerAngles).y , 0); }
+        else
+            camlookatPos.transform.rotation = Quaternion.Euler(rotaY, transform.rotation.eulerAngles.y + mouseX * camSpeedX, 0);
         //Vector3 mouseRot = new Vector3(-mouseY, mouseX, 0); // create vector for camera rotation after the xposition of the mouse.
        // camlookatPos.transform.Rotate(mouseRot * rotspeed);
         

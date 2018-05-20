@@ -58,7 +58,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         {
             FixtZRotation();// stops rotation on the Z axis
 
-            InputDelay("Fire2", 2.5f); // stops double klicking
+            InputDelay("Jump", 2.5f); // stops double klicking
 
             if (IsSkiing && IsGrounded)
             {
@@ -116,11 +116,13 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         void Spining()
         {
             //rota = player.rotation.eulerAngles.y + y * turnSpeed;// rotation equal to rotation + x-axis*turnspeed
+            if (IsSkiing == false){ 
             rota = camera.transform.rotation.eulerAngles.y;
             Quaternion target = Quaternion.Euler(0, rota, 0);//set rotation
 
 
             player.rotation = Quaternion.Slerp(transform.rotation, target, Time.deltaTime * 30);//update rotation
+            }else player.AddTorque(Vector3.up * y * SkiTurnSpeed, ForceMode.VelocityChange);
         }
         /// <summary>
         /// phisikal movment and rotation
@@ -129,33 +131,46 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         {
             player.AddForce(transform.forward * z * movementSpeed, ForceMode.Acceleration);
             player.AddTorque(Vector3.up * y * SkiTurnSpeed, ForceMode.VelocityChange);
+            if (Input.GetButton("Fire2") == true)
+            {
+                player.drag = 2;
+            }
+            else player.drag = orgDrag;
         }
         /// <summary>
         /// alter velosity vektor baset on ski orentation
         /// </summary>
         void SkiVelocityChange()
         {
+            Vector3 V = player.velocity.normalized;
+            if (IsGrounded)
 
-            if (player.transform.InverseTransformDirection(player.velocity).z < -0.4)// bakvord sliding
             {
-                player.drag = orgDrag;
-                player.AddForce(player.transform.TransformDirection(Vector3.back).normalized - player.velocity.normalized, ForceMode.VelocityChange);
-            }
-            else if (player.transform.InverseTransformDirection(player.velocity).z > 0.4)// forvord sliding
-            {
-                player.drag = orgDrag;
-                player.AddForce(player.transform.TransformDirection(Vector3.forward).normalized - player.velocity.normalized, ForceMode.VelocityChange);
-            }
-            else if ((player.transform.eulerAngles.x > 350 || player.transform.eulerAngles.x < 10) && z == 0 && testDrag)//  no sliding when purpendikeler on slop
-            {
+                if (player.transform.InverseTransformDirection(player.velocity).z < -0.4)// bakvord sliding
+                {
+                    // player.drag = orgDrag;
+                    player.AddForce(player.transform.TransformDirection(Vector3.back).normalized - player.velocity.normalized , ForceMode.VelocityChange);
+                   
+                }
+                else if (player.transform.InverseTransformDirection(player.velocity).z > 0.4)// forvord sliding
+                {
+                    //player.drag = orgDrag;
 
-                player.drag = 100;
-            }
-            else // other sliding
-            {
-                player.drag = orgDrag;
-            }
+                    player.AddForce(player.transform.TransformDirection(Vector3.forward).normalized  - player.velocity.normalized , ForceMode.VelocityChange);
+                    //player.AddForce(V, ForceMode.Force);
+                }
 
+                else if ((player.transform.eulerAngles.x > 350 || player.transform.eulerAngles.x < 10) && z == 0 && Input.GetButton("Fire2"))//  no sliding when purpendikeler on slop
+                {
+
+                    player.drag = 100;
+                    //if (IsGrounded) { player.velocity = Vector3.zero;}
+                }
+                else // other sliding
+                {
+                    player.drag = orgDrag;
+                }
+            }
         }
         /// <summary>
         /// sheks if chrekter is standing on a surfase
