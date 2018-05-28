@@ -15,9 +15,12 @@ using System.Collections;
             PATROL,
             CHASE,
             DISTRACTED,
+            ATTACK
         }
         public State state;
         private bool alive;
+        [SerializeField]
+        private float life;
         
         // Variables for patrolling
         public Transform[] waypoints;
@@ -28,8 +31,7 @@ using System.Collections;
         private string mystate;
         // Variables for investigate
         private Vector3 investigateSpot;
-        private float timer = 0;
-        public float investigateWait = 0.01f;
+        
 
         // Variables for sight
         [SerializeField]
@@ -40,6 +42,7 @@ using System.Collections;
         //variables for distracted
         private Vector3 pointOfDistraction;
         bool canHear;// bool for the enemy to hear
+    
 
        private  void Awake()
         {
@@ -47,8 +50,7 @@ using System.Collections;
         }
         void Start()
         {
-            //assign the references for the agents and character scripts
-            
+            //assign the references for the agents and character scripts           
             agent = GetComponent<NavMeshAgent>();
             //character = GetComponent<ThirdPersonCharacter>();// this can be changed to other script when we have a more specific movement script created
             enemy = GetComponent<EnemyMove>();// get the movement script ref
@@ -67,8 +69,7 @@ using System.Collections;
     //general update once per frame
     void FixedUpdate()
     {
-        StartCoroutine("FSM");
-        
+        StartCoroutine("FSM");        
         agent.nextPosition = transform.position;
     }
    
@@ -92,6 +93,9 @@ using System.Collections;
                     DetermineHearingRange(GameManager.managerWasa.temporaryPos);
                     Distraction();
                         break;
+                case State.ATTACK:
+                    Attacking();
+                    break;
                        
                 }
                 yield return null;
@@ -125,7 +129,6 @@ using System.Collections;
                 //character.Move(Vector3.zero,false,false);
             }
         }
-
         void Chase()
         {
         //timer += Time.deltaTime;
@@ -133,7 +136,7 @@ using System.Collections;
         
             agent.SetDestination(this.transform.position);
             transform.LookAt(investigateSpot);
-            Debug.Log("hey! You");                
+            //Debug.Log("hey! You");                
             //agent.speed = chasespeed;
             agent.SetDestination(GameObject.FindGameObjectWithTag("Player").transform.position);
         //character.Move(agent.desiredVelocity, false, false);
@@ -142,57 +145,66 @@ using System.Collections;
         else
             enemy.MoveForward(agent.desiredVelocity, false);        
         }
-        
-        //void Investigate()
-        //{
-
-        //    timer += Time.deltaTime;
-        //    RaycastHit hit;
-
-        //    agent.SetDestination(this.transform.position);
-        //    //character.Move(Vector3.zero, false, false);
-        //    transform.LookAt(investigateSpot);
-        //    if (timer <= investigateWait)
-        //    {
-        //        state = SoldierBehaviour.State.PATROL;
-        //        timer = 0;
-        //    }
-        //    // debuggers
-        //    Debug.DrawRay(transform.position + Vector3.up * heightMultiplier, transform.forward * sightDist, Color.green);
-        //    Debug.DrawRay(transform.position + Vector3.up * heightMultiplier, (transform.forward+transform.right).normalized * sightDist, Color.green);
-        //    Debug.DrawRay(transform.position + Vector3.up * heightMultiplier, (transform.forward-transform.right).normalized * sightDist, Color.green);
-        //    // rays
-        //    if (Physics.Raycast(transform.position + Vector3.up * heightMultiplier, transform.forward, out hit, sightDist))
-        //    {
-        //    Debug.Log(hit.collider.gameObject.tag);
-        //        if (hit.collider.gameObject.tag == "Player")
-        //        {
-        //        Debug.Log("fgiu");
-        //            state = SoldierBehaviour.State.CHASE;                   
-        //        }
-        //    }
-        //    if (Physics.Raycast(transform.position + Vector3.up * heightMultiplier, (transform.forward+transform.right).normalized, out hit, sightDist))
-        //    {
-        //        if (hit.collider.gameObject.tag == "Player")
-        //        {
-        //            state = SoldierBehaviour.State.CHASE;
-        //        }
-        //    }
-        //    if (Physics.Raycast(transform.position + Vector3.up * heightMultiplier, (transform.forward-transform.right).normalized, out hit, sightDist))
-        //    {
-        //        if (hit.collider.gameObject.tag == "Player")
-        //        {
-        //            state = SoldierBehaviour.State.CHASE;
-        //        }
-        //    }
-
-           
-        //}
         /// <summary>
-        /// hearing range for ai enemy. Uses a vector 3. distance to determine how far away the ai is from the point of distraction
+        /// function for attacking Gustav Vasa
         /// </summary>
-        /// <param name="pointofHearing"></param>
-        private void DetermineHearingRange(Vector3 pointofHearing)
+        private void Attacking()
+       {
+        //stop navmesh agent
+        // get player health 
+        // determine if hit
+        // if the attack does hit remove health from gustav vasa 
+       }
+    //void Investigate()
+    //{
+
+    //    timer += Time.deltaTime;
+    //    RaycastHit hit;
+
+    //    agent.SetDestination(this.transform.position);
+    //    //character.Move(Vector3.zero, false, false);
+    //    transform.LookAt(investigateSpot);
+    //    if (timer <= investigateWait)
+    //    {
+    //        state = SoldierBehaviour.State.PATROL;
+    //        timer = 0;
+    //    }
+    //    // debuggers
+    //    Debug.DrawRay(transform.position + Vector3.up * heightMultiplier, transform.forward * sightDist, Color.green);
+    //    Debug.DrawRay(transform.position + Vector3.up * heightMultiplier, (transform.forward+transform.right).normalized * sightDist, Color.green);
+    //    Debug.DrawRay(transform.position + Vector3.up * heightMultiplier, (transform.forward-transform.right).normalized * sightDist, Color.green);
+    //    // rays
+    //    if (Physics.Raycast(transform.position + Vector3.up * heightMultiplier, transform.forward, out hit, sightDist))
+    //    {
+    //    Debug.Log(hit.collider.gameObject.tag);
+    //        if (hit.collider.gameObject.tag == "Player")
+    //        {
+    //        Debug.Log("fgiu");
+    //            state = SoldierBehaviour.State.CHASE;                   
+    //        }
+    //    }
+    //    if (Physics.Raycast(transform.position + Vector3.up * heightMultiplier, (transform.forward+transform.right).normalized, out hit, sightDist))
+    //    {
+    //        if (hit.collider.gameObject.tag == "Player")
+    //        {
+    //            state = SoldierBehaviour.State.CHASE;
+    //        }
+    //    }
+    //    if (Physics.Raycast(transform.position + Vector3.up * heightMultiplier, (transform.forward-transform.right).normalized, out hit, sightDist))
+    //    {
+    //        if (hit.collider.gameObject.tag == "Player")
+    //        {
+    //            state = SoldierBehaviour.State.CHASE;
+    //        }
+    //    }
+
+
+    //}
+    /// <summary>
+    /// hearing range for ai enemy. Uses a vector 3. distance to determine how far away the ai is from the point of distraction
+    /// </summary>
+    /// <param name="pointofHearing"></param>
+    private void DetermineHearingRange(Vector3 pointofHearing)
         {
         if (Vector3.Distance(transform.position, pointofHearing) <= 25)
         {

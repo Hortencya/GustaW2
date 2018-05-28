@@ -15,11 +15,12 @@ public class GameManager : MonoBehaviour {
     public Transform[] critterWaypoints;// waypoints for smaller animals like geese, cows, goats, hens etc. 
     public GameObject instructions;// Refers the ui object
     public GameObject playercharacter;// reference to the player object
+    public GameObject VasaSkiis; // visual representation of the skiis Gustav Vasa is wearing when skiing
     public GameObject holdobject;// reference needed specifically by throwable object
     public Transform cameraRotationTransform;
     public Transform camMaxZoomObj;
     public Vector3 temporaryPos;
-    public bool callenemy;
+    public bool callenemy;// this makes determines if the enemy have been called.
 
 // I know that throwableObjects and Hideable objects is lacking in this class but the reason for that is that these types of objects never are
 // assigned in the inspector but through runtime functions, the player is refering differnet instances of these each time interacting with them

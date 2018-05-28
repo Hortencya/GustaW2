@@ -15,12 +15,13 @@ public class CameraFollow : MonoBehaviour
     [SerializeField]
     private bool cameraIsLocked = true;// bool that tells us the camera is locked ie outside of player control
     private Camera main;// ref to main camera is set to the variable set in game manager
-    
+
     // Camera manipulation variables, these are used for manipulaing the cameras position in the scene 
-   
-    
+
+    GameObject player;
     private Vector3 origPos;// variable that saves down the original position of the camera
-    
+    [SerializeField]
+    private Quaternion origRot;
     
     [SerializeField]// this value might be needed to be adjusted in the inspector and is thus serialized
     private float smoothSpeed;// the camera uses this to determine how fast it moves toward the target object/OBS it has to be bigger than 0 but smaller than 1
@@ -34,21 +35,25 @@ public class CameraFollow : MonoBehaviour
     private float camSpeedY;
     [SerializeField]
     private float camSpeedX;
-
+    Vector3 desiredLookatPos;
     float rotaY = 0;
     float zoom=0;
     private void Awake()
     {
         origPos = offset;
+
        // offset = origPos; // set correct offset to origpos        
         camlookatPos = GameObject.FindGameObjectWithTag("Cameratransform").transform;// find the player from within the scene   
        
+        
 
     }
     private void Start()
     {
         main = GameManager.managerWasa.mainCamera;// set main to refer to the game managers camera reference this way long names avoided throughout the script
-       
+        player = GameManager.managerWasa.playercharacter;
+        origRot = camlookatPos.localRotation;
+        desiredLookatPos = camlookatPos.position;
     }
     public bool CameraLocked
     {
@@ -66,6 +71,7 @@ public class CameraFollow : MonoBehaviour
     }
     private void Update()
     {
+        
         //DefineRotation();// rotates the camera according to the position defined  
         CheckPressedMousebutton();
        
@@ -76,7 +82,7 @@ public class CameraFollow : MonoBehaviour
     public void Refresh()
     {
         Vector3 desiredpos;// this position is what is desired
-
+       
         // set the camlookatpos with the help of the rayconditions method
         //main.transform.position = RayConditions(main.transform).position;
                            // aim to follow the object at set speed after the smoothedspeed assigned in the inspector
@@ -92,8 +98,8 @@ public class CameraFollow : MonoBehaviour
             //transform.position = camlookatPos.Transformpoint(offset);
             desiredpos = camlookatPos.TransformPoint(offset);
             
-            Vector3 smoothedposition = Vector3.Lerp(transform.position, desiredpos, smoothSpeed);// lerp determine how the camera follow the targeted object
-            transform.position = desiredpos;
+            Vector3 smoothedposition = Vector3.Lerp(transform.position, desiredpos, smoothSpeed * Time.deltaTime);// lerp determine how the camera follow the targeted object
+            transform.position = smoothedposition;
         }
         else
         {
@@ -106,7 +112,8 @@ public class CameraFollow : MonoBehaviour
 
         if (CameraLocked)// changed to use property
         {
-            transform.LookAt(camlookatPos);
+            desiredLookatPos = Vector3.Lerp(desiredLookatPos, camlookatPos.position, smoothSpeed * Time.deltaTime);
+            transform.LookAt(desiredLookatPos);
         }
         //main.transform.rotation. = new Vector3(playerchar.transform.eulerAngles.x, main.transform.rotation.eulerAngles.y, main.transform.rotation.eulerAngles.z);
     }
@@ -158,15 +165,24 @@ public class CameraFollow : MonoBehaviour
     //    /// </summary>
     public void RotAfterMousePos()
     {
+
         // rotation of camera after mouse position while left mous button is held
+
         float mouseX = Input.GetAxis("Mouse X");
-       
         float mouseY = Input.GetAxis("Mouse Y");
-        if ((rotaY < 50 || -mouseY < 0) && (rotaY > -50 || -mouseY > 0))
+
+        if (Input.GetButton("Fire1") || !player.GetComponent<MoveVasa>().IsSkiing)
         {
-            rotaY -= mouseY * camSpeedY;
+            if ((rotaY < 50 || -mouseY < 0) && (rotaY > -50 || -mouseY > 0))
+            {
+                rotaY -= mouseY * camSpeedY;
+            }
+            camlookatPos.transform.rotation = Quaternion.Euler(rotaY, transform.rotation.eulerAngles.y + mouseX * camSpeedX, 0);
+        }//camlookatPos.transform.rotation = Quaternion.Euler(rotaY, transform.TransformDirection( camlookatPos.parent.rotation.eulerAngles).y , 0); }
+        else
+        {
+             camlookatPos.transform.localRotation = Quaternion.Slerp(camlookatPos.transform.localRotation, origRot, .1f); 
         }
-        camlookatPos.transform.rotation = Quaternion.Euler(rotaY, transform.rotation.eulerAngles.y + mouseX*camSpeedX,0);
         //Vector3 mouseRot = new Vector3(-mouseY, mouseX, 0); // create vector for camera rotation after the xposition of the mouse.
        // camlookatPos.transform.Rotate(mouseRot * rotspeed);
         

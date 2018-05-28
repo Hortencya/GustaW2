@@ -34,6 +34,7 @@ public class EnemyMove : MonoBehaviour
     {
         if (isMoving && IsGrounded)
         {
+            movementSpeed = 10;
             sudo.position = body.transform.position;
             body.AddForce(transform.forward * movementSpeed, ForceMode.Acceleration);
             sudo.LookAt(body.position + direction);
