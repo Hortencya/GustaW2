@@ -294,6 +294,21 @@ Prefab:
       propertyPath: offset.z
       value: -7.1
       objectReference: {fileID: 0}
+    - target: {fileID: 114000011513745192, guid: 79514e6664ca1804fa4152947fb0c2fd,
+        type: 2}
+      propertyPath: offset.y
+      value: 3.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000011513745192, guid: 79514e6664ca1804fa4152947fb0c2fd,
+        type: 2}
+      propertyPath: cameraIsLocked
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000011513745192, guid: 79514e6664ca1804fa4152947fb0c2fd,
+        type: 2}
+      propertyPath: smoothSpeed
+      value: 15
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 79514e6664ca1804fa4152947fb0c2fd, type: 2}
   m_IsPrefabParent: 0

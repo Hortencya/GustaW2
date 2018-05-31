@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-namespace UnityStandardAssets.Characters.ThirdPerson
-{
+//namespace UnityStandardAssets.Characters.ThirdPerson{
     public class MoveVasa : MonoBehaviour
     {
         float y;// rotation y direction input
@@ -235,4 +234,4 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         }
         //}
     }
-}
+//}
