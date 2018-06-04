@@ -5,7 +5,7 @@ using System.Collections;
 /// </summary>
 public class SimpleGooseAI : MonoBehaviour
 {
-    private NavMeshAgent goose;// this moves the goose 
+    private UnityEngine.AI.NavMeshAgent goose;// this moves the goose 
     [SerializeField]
     //private float walkingspeed;// this are used to regulate how fast the geese moves.
     private int waypointIndex = 0; // which waypoint is we on, we always start at 0.
@@ -28,7 +28,7 @@ public class SimpleGooseAI : MonoBehaviour
     void Start()
     {
         vasaManage = GameManager.managerWasa;
-        goose = GetComponent<NavMeshAgent>();        
+        goose = GetComponent<UnityEngine.AI.NavMeshAgent>();        
     }
 	//here the states are driven simutaneosly as everything else	
 	void FixedUpdate ()

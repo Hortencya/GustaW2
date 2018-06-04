@@ -5,7 +5,7 @@ using System.Collections;
     public class SoldierBehaviour : MonoBehaviour
 {
         
-    public NavMeshAgent agent;
+    public UnityEngine.AI.NavMeshAgent agent;
     [SerializeField]
     private bool activeSkiing;//this is a bool to determine if the ai should use skiing or not.
     public EnemyMove enemy;
@@ -51,7 +51,7 @@ using System.Collections;
         void Start()
         {
             //assign the references for the agents and character scripts           
-            agent = GetComponent<NavMeshAgent>();
+            agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
             //character = GetComponent<ThirdPersonCharacter>();// this can be changed to other script when we have a more specific movement script created
             enemy = GetComponent<EnemyMove>();// get the movement script ref
             //allow navmesh agent to update movement and rotation
