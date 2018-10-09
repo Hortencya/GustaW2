@@ -1,0 +1,473 @@
+fileFormatVersion: 2
+guid: 5e6177ad2d577894390c57a2ba64fb13
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: 2D animation spritesheet_0
+    21300002: 2D animation spritesheet_1
+    21300004: 2D animation spritesheet_2
+    21300006: 2D animation spritesheet_3
+    21300008: 2D animation spritesheet_4
+    21300010: 2D animation spritesheet_5
+    21300012: 2D animation spritesheet_6
+    21300014: 2D animation spritesheet_7
+    21300016: 2D animation spritesheet_8
+    21300018: 2D animation spritesheet_9
+    21300020: 2D animation spritesheet_10
+    21300022: 2D animation spritesheet_11
+    21300024: 2D animation spritesheet_12
+    21300026: 2D animation spritesheet_13
+    21300028: 2D animation spritesheet_14
+    21300030: 2D animation spritesheet_15
+    21300032: 2D animation spritesheet_16
+    21300034: 2D animation spritesheet_17
+  externalObjects: {}
+  serializedVersion: 5
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -1
+    wrapU: 1
+    wrapV: 1
+    wrapW: -1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - serializedVersion: 2
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: 2D animation spritesheet_0
+      rect:
+        serializedVersion: 2
+        x: 19
+        y: 1126
+        width: 187
+        height: 443
+      alignment: 9
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d096ae63bdde1ec48bf4fbc9c306fc68
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 2D animation spritesheet_1
+      rect:
+        serializedVersion: 2
+        x: 238
+        y: 1208
+        width: 194
+        height: 364
+      alignment: 9
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7ca7cc2524409d04f860339fd0f66173
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 2D animation spritesheet_2
+      rect:
+        serializedVersion: 2
+        x: 552
+        y: 1340
+        width: 204
+        height: 216
+      alignment: 9
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 70b0fc413b348394c8831b438e63c2cf
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 2D animation spritesheet_3
+      rect:
+        serializedVersion: 2
+        x: 784
+        y: 1378
+        width: 379
+        height: 184
+      alignment: 9
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e984d709ae02cfb48986896a6a8a251a
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 2D animation spritesheet_4
+      rect:
+        serializedVersion: 2
+        x: 346
+        y: 735
+        width: 254
+        height: 425
+      alignment: 9
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c5342516993613042b150ad14a59791e
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 2D animation spritesheet_5
+      rect:
+        serializedVersion: 2
+        x: 750
+        y: 897
+        width: 102
+        height: 289
+      alignment: 9
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1cbe0d89dfa164d43b8a53a30e136f93
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 2D animation spritesheet_6
+      rect:
+        serializedVersion: 2
+        x: 924
+        y: 1080
+        width: 200
+        height: 265
+      alignment: 9
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 40425e2d512a8ca4dbf0d6ff4c8596cc
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 2D animation spritesheet_7
+      rect:
+        serializedVersion: 2
+        x: 78
+        y: 669
+        width: 257
+        height: 387
+      alignment: 9
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1deea6785275c81468f3a25be5eaec07
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 2D animation spritesheet_8
+      rect:
+        serializedVersion: 2
+        x: 750
+        y: 605
+        width: 109
+        height: 248
+      alignment: 9
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5e5f95ac9a83c5944b6fe66ddaf618ad
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 2D animation spritesheet_9
+      rect:
+        serializedVersion: 2
+        x: 990
+        y: 735
+        width: 134
+        height: 267
+      alignment: 9
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f4d766e901525204aa91ff16c2fda08c
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 2D animation spritesheet_10
+      rect:
+        serializedVersion: 2
+        x: 295
+        y: 207
+        width: 181
+        height: 441
+      alignment: 9
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eac9441c73ba3cd40b82dae20b741cfd
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 2D animation spritesheet_11
+      rect:
+        serializedVersion: 2
+        x: 524
+        y: 328
+        width: 181
+        height: 341
+      alignment: 9
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f2ad8367b330e6b4ab96071825ae4fe2
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 2D animation spritesheet_12
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 562
+        width: 114
+        height: 139
+      alignment: 9
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d5febe0947dadef43984a7444cf17ec1
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 2D animation spritesheet_13
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 35
+        width: 200
+        height: 393
+      alignment: 9
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ea311a9081956f048b04f510a859f214
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 2D animation spritesheet_14
+      rect:
+        serializedVersion: 2
+        x: 756
+        y: 427
+        width: 104
+        height: 125
+      alignment: 9
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a86bbdc677e4d074db65418a91b0f2e4
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 2D animation spritesheet_15
+      rect:
+        serializedVersion: 2
+        x: 974
+        y: 161
+        width: 166
+        height: 360
+      alignment: 9
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 31dbda182e211f742aaf6021b8b4a02e
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 2D animation spritesheet_16
+      rect:
+        serializedVersion: 2
+        x: 431
+        y: 35
+        width: 250
+        height: 144
+      alignment: 9
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 182dd17be78b5184ba5a4868ec14be06
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 2D animation spritesheet_17
+      rect:
+        serializedVersion: 2
+        x: 762
+        y: 51
+        width: 212
+        height: 110
+      alignment: 9
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 684d29ce18d551a498650f84be4495ac
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 914ae52676ca3bb4b975baeff8627de3
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

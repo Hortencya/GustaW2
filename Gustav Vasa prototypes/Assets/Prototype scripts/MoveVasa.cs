@@ -8,7 +8,7 @@ using System.Collections;
 
         float rota;// rotation while walking 
         public float movementSpeed;// movement speed while walking 
-        public float turnSpeed;// speed for turning while walking 
+        public float turnSpeed;// speed for turning while walking       
 
         public float SkiingSpeed; // movement speed while skiing
         public float SkiTurnSpeed; // turning speed While skiing
@@ -21,7 +21,8 @@ using System.Collections;
         Rigidbody player;
         CapsuleCollider skin;
         TrailRenderer trail;
-        Camera camera;        
+        Camera camera;
+        Animator GustavAnim;//animator reference
         //}
         float orgDrag;
 
@@ -40,12 +41,13 @@ using System.Collections;
             // geting componets
             skin = GetComponent<CapsuleCollider>();
             player = GetComponent<Rigidbody>();// get the players transform component
-            trail = GetComponent<TrailRenderer>();
+            //trail = GetComponent<TrailRenderer>();
             camera = GameManager.managerWasa.GetCamera;
-            orgDrag = player.drag;
+            orgDrag = player.drag;            
             // deactivates the skiis if that is not already done
             GameManager.managerWasa.VasaSkiis.SetActive(false);
-        }
+            GustavAnim = GetComponentInChildren<Animator>();//Get animatorcomponent from player
+    }
 
         // Update is called once per frame
         void Update()
@@ -70,12 +72,13 @@ using System.Collections;
                 skin.center = new Vector3(0, 0.3f, 0);
                 //}
 
-                trail.enabled = true;
+                //trail.enabled = true;
 
                 Skiing();
                 SkiVelocityChange();
 
             }
+            //if the player has contact with the ground but skiing is turned off
             else if (IsGrounded)
             {
                 player.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ; // disable rotation on the X axis
@@ -83,17 +86,24 @@ using System.Collections;
                                           //stands the capsulecollidern up to use it normaly {
                 skin.direction = 1;
                 skin.center = new Vector3(0, 0.8f, 0);
-                //}
-                trail.enabled = false;
-
+            //}
+            //trail.enabled = false;
+            //checking for input via WASD controls as standard for many applications this day
+            if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
+            {                
                 Walking();
-                Spining();
+                Spining();                
+                RotationWhenWalking();
+            }
+            else
+                Idle();  
             }
 
             else
             {
                 player.useGravity = true;
                 Spining();
+                
             }
 
 
@@ -109,23 +119,40 @@ using System.Collections;
         void Walking()
         {
             // the below line shut of the skiis visual represetation while walking
-            GameManager.managerWasa.VasaSkiis.SetActive(false);
+            GameManager.managerWasa.VasaSkiis.SetActive(false);       
             //player.velocity = (player.transform.TransformDirection(Vector3.forward) * z * movementSpeed);// updated movement over time
-            player.velocity = new Vector3(camera.transform.forward.x,0,camera.transform.forward.z) * z * movementSpeed + camera.transform.right * y * movementSpeed;
+            player.velocity = new Vector3(camera.transform.forward.x, 0, camera.transform.forward.z) * z * movementSpeed + camera.transform.right * y * movementSpeed;
+            GustavAnim.SetBool("Walks", true);
+        
         }
+    /// <summary>
+    /// A method that sets the walkcycle to false right now it only contains one single idle animation
+    /// but later on more idles as well as conditions to start them can be added here 
+    /// </summary>
+       void Idle()
+        {
+        
+        GustavAnim.SetBool("Walks", false);//sets walking to false and put idle to play
+        //put rotation values as with normal walking
+        rota = camera.transform.rotation.eulerAngles.y;
+        Quaternion target = Quaternion.Euler(0, rota, 0);//set rotation
+        player.rotation = Quaternion.Slerp(transform.rotation, target, Time.deltaTime * 30);//update rotation
+    }
         /// <summary>
         /// non phisikal rotation
         /// </summary>
         void Spining()
         {
             //rota = player.rotation.eulerAngles.y + y * turnSpeed;// rotation equal to rotation + x-axis*turnspeed
-            if (IsSkiing == false){ 
+            if (IsSkiing == false)
+        { 
             rota = camera.transform.rotation.eulerAngles.y;
             Quaternion target = Quaternion.Euler(0, rota, 0);//set rotation
 
 
             player.rotation = Quaternion.Slerp(transform.rotation, target, Time.deltaTime * 30);//update rotation
-            }else player.AddTorque(Vector3.up * y * SkiTurnSpeed, ForceMode.VelocityChange);
+            }
+        else player.AddTorque(Vector3.up * y * SkiTurnSpeed, ForceMode.VelocityChange);
         }
         /// <summary>
         /// phisikal movment and rotation
@@ -141,6 +168,7 @@ using System.Collections;
                 player.drag = 2;
             }
             else player.drag = orgDrag;
+        GustavAnim.SetBool("Walks", false);
         }
         /// <summary>
         /// alter velosity vektor baset on ski orentation
@@ -238,6 +266,29 @@ using System.Collections;
             yield return new WaitForSeconds(sec);
             skiingKlicked = false;
         }
+    /// <summary>
+    ///This function rotates the player while walking after keyboard prompts the general idea here is that 
+    ///the player presses a button for input
+    /// </summary>
+    private void RotationWhenWalking()
+    {
+        if (Input.GetKey(KeyCode.A))
+        {
+            GustavAnim.SetBool("Walks", false);
+            transform.rotation = Quaternion.Slerp(transform.rotation, new Quaternion(transform.rotation.x, 45, transform.rotation.z, 0),movementSpeed);
+            if(transform.rotation.y> transform.rotation.y + 45&& Input.GetKey(KeyCode.W))
+            {
+                Walking();
+            }
+        }
+        if (Input.GetKey(KeyCode.D))
+        {
+
+        }
+        if(Input.GetKey(KeyCode.S))
+        {
+        }
+    }
         //}
     }
 //}
