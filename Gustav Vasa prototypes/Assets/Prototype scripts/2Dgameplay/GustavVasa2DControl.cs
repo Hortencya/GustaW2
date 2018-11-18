@@ -17,7 +17,8 @@ public class GustavVasa2DControl : MonoBehaviour {
     // instance variables
     private Animator vasaAnim;// player character animator
     private Vector3 newScale;// value used to temporarly save data about gustav Vasas current scale
-    private Camera maincam;
+    private MoveCamera2D move2D;
+    private GameObject camera;
     [SerializeField]
     private float walkingSpeed;// how fast Gustav Vasa walks forward
     // awake function that calls the animator function and initiate the vector 2 for movement
@@ -26,7 +27,10 @@ public class GustavVasa2DControl : MonoBehaviour {
         // step1
         vasaAnim = this.GetComponent<Animator>();// get component for player characters animations
         vasaAnim.SetBool("Walking", false);
-        maincam = GameObject.FindGameObjectWithTag("Main Camera").GetComponent<Camera>();
+        camera = GameObject.FindGameObjectWithTag("MainCamera");
+        move2D = camera.GetComponent<MoveCamera2D>();
+        //move2D = 
+        
     }
     //step2
     // this function will cover walking righ and left and is called in the update function whenever
@@ -39,7 +43,9 @@ public class GustavVasa2DControl : MonoBehaviour {
         {
             WalkToTheLeft();
             // get the animation state for walking
-            vasaAnim.SetBool("Walking",true);
+            vasaAnim.SetBool("Walking", true);
+            move2D.MoveCamera = true;          
+            move2D.MoveMainCamera();
 
         }
         else if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
@@ -47,12 +53,15 @@ public class GustavVasa2DControl : MonoBehaviour {
             // walk to the right           
             WalkToTheRight();
             vasaAnim.SetBool("Walking", true);
+            move2D.MoveCamera = true;
+            move2D.MoveMainCamera();
         }
         else
         {
             //stand still
             vasaAnim.SetBool("Walking", false);
             // get idle
+                move2D.MoveCamera = false;
         }
         
     }

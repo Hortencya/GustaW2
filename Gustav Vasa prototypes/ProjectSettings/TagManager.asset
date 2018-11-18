@@ -16,6 +16,7 @@ TagManager:
   - CamLookbehind
   - MinimumDist
   - flooring
+  - GoalPost
   layers:
   - Default
   - TransparentFX

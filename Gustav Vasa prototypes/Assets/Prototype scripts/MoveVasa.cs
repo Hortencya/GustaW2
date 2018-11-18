@@ -37,7 +37,6 @@ using System.Collections;
         // Use this for initialization
         void Start()
         {
-
             // geting componets
             skin = GetComponent<CapsuleCollider>();
             player = GetComponent<Rigidbody>();// get the players transform component
@@ -45,7 +44,7 @@ using System.Collections;
             camera = GameManager.managerWasa.GetCamera;
             orgDrag = player.drag;            
             // deactivates the skiis if that is not already done
-            GameManager.managerWasa.VasaSkiis.SetActive(false);
+            //GameManager.managerWasa.VasaSkiis.SetActive(false);
             GustavAnim = GetComponentInChildren<Animator>();//Get animatorcomponent from player
     }
 
@@ -93,7 +92,7 @@ using System.Collections;
             {                
                 Walking();
                 Spining();                
-                RotationWhenWalking();
+                RotationWhenWalking();// logics are changing here
             }
             else
                 Idle();  
@@ -105,11 +104,6 @@ using System.Collections;
                 Spining();
                 
             }
-
-
-
-
-
 
             //player.AddTorque(Vector3.up* x*1000, ForceMode.VelocityChange);
         }
@@ -123,6 +117,7 @@ using System.Collections;
             //player.velocity = (player.transform.TransformDirection(Vector3.forward) * z * movementSpeed);// updated movement over time
             player.velocity = new Vector3(camera.transform.forward.x, 0, camera.transform.forward.z) * z * movementSpeed + camera.transform.right * y * movementSpeed;
             GustavAnim.SetBool("Walks", true);
+            GustavAnim.SetBool("EnterSkiing", false);
         
         }
     /// <summary>
@@ -131,8 +126,10 @@ using System.Collections;
     /// </summary>
        void Idle()
         {
-        
+
+        GameManager.managerWasa.VasaSkiis.SetActive(false);
         GustavAnim.SetBool("Walks", false);//sets walking to false and put idle to play
+        GustavAnim.SetBool("EnterSkiing", false);
         //put rotation values as with normal walking
         rota = camera.transform.rotation.eulerAngles.y;
         Quaternion target = Quaternion.Euler(0, rota, 0);//set rotation
@@ -169,6 +166,7 @@ using System.Collections;
             }
             else player.drag = orgDrag;
         GustavAnim.SetBool("Walks", false);
+        GustavAnim.SetBool("EnterSkiing", true);        
         }
         /// <summary>
         /// alter velosity vektor baset on ski orentation
@@ -267,27 +265,10 @@ using System.Collections;
             skiingKlicked = false;
         }
     /// <summary>
-    ///This function rotates the player while walking after keyboard prompts the general idea here is that 
-    ///the player presses a button for input
+    ///This function uses the rotation of the mouse to rotate the character after the y axis, this way
     /// </summary>
     private void RotationWhenWalking()
-    {
-        if (Input.GetKey(KeyCode.A))
-        {
-            GustavAnim.SetBool("Walks", false);
-            transform.rotation = Quaternion.Slerp(transform.rotation, new Quaternion(transform.rotation.x, 45, transform.rotation.z, 0),movementSpeed);
-            if(transform.rotation.y> transform.rotation.y + 45&& Input.GetKey(KeyCode.W))
-            {
-                Walking();
-            }
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-
-        }
-        if(Input.GetKey(KeyCode.S))
-        {
-        }
+    {               
     }
         //}
     }

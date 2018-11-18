@@ -34,7 +34,7 @@ AnimatorStateTransition:
   m_PrefabInternal: {fileID: 0}
   m_Name: 
   m_Conditions:
-  - m_ConditionMode: 2
+  - m_ConditionMode: 1
     m_ConditionEvent: Walking
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
@@ -88,7 +88,7 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.25
+  m_TransitionDuration: 0.44276935
   m_TransitionOffset: 0
   m_ExitTime: 0.75490195
   m_HasExitTime: 1
@@ -167,7 +167,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: e0f2cc9d58823b34681b4cab87773624, type: 3}
+  m_Motion: {fileID: 7400000, guid: 7b169cb01a8a40c4480f4af575101d2d, type: 2}
   m_Tag: Walking
   m_SpeedParameter: 
   m_MirrorParameter: 

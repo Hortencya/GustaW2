@@ -6,39 +6,32 @@ using UnityEngine;
 /// </summary>
 public class MoveCamera2D : MonoBehaviour {
     //Instance variable
-    private Camera Maincam;// reference to maincamera
     private GameObject player;// reference to the player
-    private float speed;
+    private bool panning;
 	// properties
     /// <summary>
     /// bool that looks for if the camera shall move with Gustav Vasa or not
     /// </summary>
     public bool MoveCamera
     {
-        get { return MoveCamera; }
-        set { MoveCamera = value; }
+        get { return panning; }
+        set { panning = value; }
     }   
     private void Awake()
     {
-        GetComponent<Camera>();
+       
         player = GameObject.FindGameObjectWithTag("Player");
-        speed = 0.5f;
+        
     }
     /// <summary>
     /// Function that moves the camera with the player
     /// </summary>
-    private void  MoveMainCamera()
+    public void  MoveMainCamera()
     {
-        if (MoveCamera)
+        if (panning)
         {
-            transform.position = new Vector3(player.transform.position.x + 6, 60.28f, -9.54f);
+            transform.position = new Vector3(player.transform.position.x -1.5f, 60.28f, -9.54f);
         }
     }
-    /// <summary>
-    /// 
-    /// </summary>
-    private void Update()
-    {
-        MoveMainCamera();
-    }
+    
 }

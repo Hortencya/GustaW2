@@ -1,0 +1,377 @@
+fileFormatVersion: 2
+guid: a75ad3c223811e0488b2d8923d340702
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: Beard
+    100002: Beard_Ctrl
+    100004: Head
+    100006: Head_Ctrl
+    100008: Head_Ctrl1
+    100010: Head_Top
+    100012: Hip
+    100014: Hip_Ctrl
+    100016: ikHandle_L_Leg
+    100018: ikHandle_R_Leg
+    100020: ikHandle_Spine
+    100022: L_Clavicle
+    100024: L_Elbow
+    100026: L_Elbow_Ctrl
+    100028: L_eyebrow
+    100030: L_eyebrow_Ctrl
+    100032: L_Foot
+    100034: L_Foot 1
+    100036: L_Foot_Ctrl
+    100038: L_Index_1
+    100040: L_Index_1_Ctrl
+    100042: L_Index_2
+    100044: L_Index_2_Ctrl
+    100046: L_Index_3
+    100048: L_Index_3_Ctrl
+    100050: L_Index_4
+    100052: L_Leg_Knee
+    100054: L_Leg_Top_3
+    100056: L_Little_1
+    100058: L_Little_1_Ctrl
+    100060: L_Little_2
+    100062: L_Little_2_Ctrl
+    100064: L_Little_3
+    100066: L_Little_3_Ctrl
+    100068: L_Little_4
+    100070: L_Middle_1
+    100072: L_Middle_1_Ctrl
+    100074: L_Middle_2
+    100076: L_Middle_2_Ctrl
+    100078: L_Middle_3
+    100080: L_Middle_3_Ctrl
+    100082: L_Middle_4
+    100084: L_mustache
+    100086: L_mustache_Ctrl
+    100088: L_Reg_Knee
+    100090: L_Reg_Top_3
+    100092: L_Ring_1
+    100094: L_Ring_1_Ctrl
+    100096: L_Ring_2
+    100098: L_Ring_2_Ctrl
+    100100: L_Ring_3
+    100102: L_Ring_3_Ctrl
+    100104: L_Ring_4
+    100106: L_Shoulder
+    100108: L_Shoulder_Ctrl
+    100110: L_Thumb_1
+    100112: L_Thumb_1_Ctrl
+    100114: L_Thumb_2
+    100116: L_Thumb_2_Ctrl
+    100118: L_Thumb_3
+    100120: L_Toe
+    100122: L_Toe 1
+    100124: L_Toe_Tip
+    100126: L_Toe_Tip 1
+    100128: L_Wrist
+    100130: L_Wrist_Ctrl
+    100132: Master_Ctrl
+    100134: mustache_mid
+    100136: mustache_mid_Ctrl
+    100138: Neck
+    100140: pCube1
+    100142: pCube2
+    100144: pCube3
+    100146: polySurface2
+    100148: R_Clavicle
+    100150: R_Elbow
+    100152: R_Elbow_Ctrl
+    100154: R_eyebrow
+    100156: R_eyebrow_Ctrl
+    100158: R_Foot_Ctrl
+    100160: R_Index_1
+    100162: R_Index_1 1
+    100164: R_Index_2
+    100166: R_Index_2 1
+    100168: R_Index_3
+    100170: R_Index_3 1
+    100172: R_Index_4
+    100174: R_Middle_1
+    100176: R_Middle_1 1
+    100178: R_Middle_2
+    100180: R_Middle_2 1
+    100182: R_Middle_3
+    100184: R_Middle_3 1
+    100186: R_Middle_4
+    100188: R_mustache
+    100190: R_mustache_Ctrl
+    100192: R_Ring_1
+    100194: R_Ring_1 1
+    100196: R_Ring_2
+    100198: R_Ring_2 1
+    100200: R_Ring_3
+    100202: R_Ring_3 1
+    100204: R_Ring_4
+    100206: R_Rittle_1
+    100208: R_Rittle_1 1
+    100210: R_Rittle_2
+    100212: R_Rittle_2 1
+    100214: R_Rittle_3
+    100216: R_Rittle_3 1
+    100218: R_Rittle_4
+    100220: R_Shoulder
+    100222: R_Shoulder_Ctrl
+    100224: R_Thumb_1
+    100226: R_Thumb_1 1
+    100228: R_Thumb_2
+    100230: R_Thumb_2 1
+    100232: R_Thumb_3
+    100234: R_Wrist
+    100236: R_Wrist_Ctrl
+    100238: //RootNode
+    100240: Spine_1
+    100242: Spine_2
+    100244: Spine_3
+    100246: Spine_Curve
+    400000: Beard
+    400002: Beard_Ctrl
+    400004: Head
+    400006: Head_Ctrl
+    400008: Head_Ctrl1
+    400010: Head_Top
+    400012: Hip
+    400014: Hip_Ctrl
+    400016: ikHandle_L_Leg
+    400018: ikHandle_R_Leg
+    400020: ikHandle_Spine
+    400022: L_Clavicle
+    400024: L_Elbow
+    400026: L_Elbow_Ctrl
+    400028: L_eyebrow
+    400030: L_eyebrow_Ctrl
+    400032: L_Foot
+    400034: L_Foot 1
+    400036: L_Foot_Ctrl
+    400038: L_Index_1
+    400040: L_Index_1_Ctrl
+    400042: L_Index_2
+    400044: L_Index_2_Ctrl
+    400046: L_Index_3
+    400048: L_Index_3_Ctrl
+    400050: L_Index_4
+    400052: L_Leg_Knee
+    400054: L_Leg_Top_3
+    400056: L_Little_1
+    400058: L_Little_1_Ctrl
+    400060: L_Little_2
+    400062: L_Little_2_Ctrl
+    400064: L_Little_3
+    400066: L_Little_3_Ctrl
+    400068: L_Little_4
+    400070: L_Middle_1
+    400072: L_Middle_1_Ctrl
+    400074: L_Middle_2
+    400076: L_Middle_2_Ctrl
+    400078: L_Middle_3
+    400080: L_Middle_3_Ctrl
+    400082: L_Middle_4
+    400084: L_mustache
+    400086: L_mustache_Ctrl
+    400088: L_Reg_Knee
+    400090: L_Reg_Top_3
+    400092: L_Ring_1
+    400094: L_Ring_1_Ctrl
+    400096: L_Ring_2
+    400098: L_Ring_2_Ctrl
+    400100: L_Ring_3
+    400102: L_Ring_3_Ctrl
+    400104: L_Ring_4
+    400106: L_Shoulder
+    400108: L_Shoulder_Ctrl
+    400110: L_Thumb_1
+    400112: L_Thumb_1_Ctrl
+    400114: L_Thumb_2
+    400116: L_Thumb_2_Ctrl
+    400118: L_Thumb_3
+    400120: L_Toe
+    400122: L_Toe 1
+    400124: L_Toe_Tip
+    400126: L_Toe_Tip 1
+    400128: L_Wrist
+    400130: L_Wrist_Ctrl
+    400132: Master_Ctrl
+    400134: mustache_mid
+    400136: mustache_mid_Ctrl
+    400138: Neck
+    400140: pCube1
+    400142: pCube2
+    400144: pCube3
+    400146: polySurface2
+    400148: R_Clavicle
+    400150: R_Elbow
+    400152: R_Elbow_Ctrl
+    400154: R_eyebrow
+    400156: R_eyebrow_Ctrl
+    400158: R_Foot_Ctrl
+    400160: R_Index_1
+    400162: R_Index_1 1
+    400164: R_Index_2
+    400166: R_Index_2 1
+    400168: R_Index_3
+    400170: R_Index_3 1
+    400172: R_Index_4
+    400174: R_Middle_1
+    400176: R_Middle_1 1
+    400178: R_Middle_2
+    400180: R_Middle_2 1
+    400182: R_Middle_3
+    400184: R_Middle_3 1
+    400186: R_Middle_4
+    400188: R_mustache
+    400190: R_mustache_Ctrl
+    400192: R_Ring_1
+    400194: R_Ring_1 1
+    400196: R_Ring_2
+    400198: R_Ring_2 1
+    400200: R_Ring_3
+    400202: R_Ring_3 1
+    400204: R_Ring_4
+    400206: R_Rittle_1
+    400208: R_Rittle_1 1
+    400210: R_Rittle_2
+    400212: R_Rittle_2 1
+    400214: R_Rittle_3
+    400216: R_Rittle_3 1
+    400218: R_Rittle_4
+    400220: R_Shoulder
+    400222: R_Shoulder_Ctrl
+    400224: R_Thumb_1
+    400226: R_Thumb_1 1
+    400228: R_Thumb_2
+    400230: R_Thumb_2 1
+    400232: R_Thumb_3
+    400234: R_Wrist
+    400236: R_Wrist_Ctrl
+    400238: //RootNode
+    400240: Spine_1
+    400242: Spine_2
+    400244: Spine_3
+    400246: Spine_Curve
+    2100000: lambert1
+    2100002: lambert4
+    2300000: pCube1
+    2300002: pCube2
+    2300004: pCube3
+    3300000: pCube1
+    3300002: pCube2
+    3300004: pCube3
+    4300000: polySurface2
+    4300002: pCube1
+    4300004: pCube3
+    4300006: pCube2
+    7400000: Take001
+    9500000: //RootNode
+    13700000: polySurface2
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Take001
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 23
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

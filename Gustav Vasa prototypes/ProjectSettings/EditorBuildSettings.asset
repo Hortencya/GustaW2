@@ -4,4 +4,11 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Skiing mountain small.unity
+    guid: 27c27f692570b2142b86cf87f21ce46f
+  - enabled: 1
+    path: Assets/Scenes/2D sequence.unity
+    guid: 04c84040ece36594391198b093a8237d
+  m_configObjects: {}
