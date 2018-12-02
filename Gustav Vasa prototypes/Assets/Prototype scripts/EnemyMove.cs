@@ -4,7 +4,7 @@ using System.Collections;
 public class EnemyMove : MonoBehaviour
 {
     Rigidbody body;
-    float movementSpeed=5f;
+    float movementSpeed=7f;
     float SkiTurnSpeed = 0.5f;
     float orgDrag;
     bool isMoving = true;
@@ -52,7 +52,7 @@ public class EnemyMove : MonoBehaviour
     /// </summary>
     public void Walking(Vector3 direction)
     {
-        movementSpeed = 3;
+        movementSpeed = 5;
         if (IsGrounded)
         {
             // define our transform

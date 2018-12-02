@@ -4,7 +4,8 @@ using System.Collections;
 
     public class SoldierBehaviour : MonoBehaviour
 {
-        
+    public GameObject pathFinding;
+    PathGrid grid;   
     public UnityEngine.AI.NavMeshAgent agent;
     [SerializeField]
     private bool activeSkiing;//this is a bool to determine if the ai should use skiing or not.
@@ -60,11 +61,12 @@ using System.Collections;
             agent.updatePosition = false;
             agent.updateRotation = false;
             // set inital state to patrol= danish enemies goes between points
-            state = SoldierBehaviour.State.PATROL;
+            state = SoldierBehaviour.State.CHASE;
             // ai is alivve
             alive = true;
             heightMultiplier = 0.36f;
 
+        grid = pathFinding.GetComponent<PathGrid>();
         }
     //general update once per frame
     void FixedUpdate()
@@ -82,7 +84,7 @@ using System.Collections;
                 {
                     case State.PATROL:
                         // calls method for patroling
-                        Patrol();
+                       // Patrol();
                         break;
                     case State.CHASE:
                     // calls methd for chasing the player
@@ -129,16 +131,18 @@ using System.Collections;
                 //character.Move(Vector3.zero,false,false);
             }
         }
-        void Chase()
-        {
+    void Chase()
+    {
         //timer += Time.deltaTime;
         //if(timer <= investigateWait)
-        
-            agent.SetDestination(this.transform.position);
-            transform.LookAt(investigateSpot);
+
+        //agent.SetDestination(this.transform.position);
+        if (grid.path != null)if(grid.path.Count>0) { 
+        investigateSpot = grid.path[0].worldPos;
+        transform.LookAt(investigateSpot); }
             //Debug.Log("hey! You");                
             //agent.speed = chasespeed;
-            agent.SetDestination(GameObject.FindGameObjectWithTag("Player").transform.position);
+            //agent.SetDestination(GameObject.FindGameObjectWithTag("Player").transform.position);
         //character.Move(agent.desiredVelocity, false, false);
         if (activeSkiing)
             enemy.MoveForward(agent.desiredVelocity, true);
@@ -278,7 +282,7 @@ using System.Collections;
             if (coll.tag == "Player")
             {               
                 state = SoldierBehaviour.State.CHASE;
-                investigateSpot = coll.gameObject.transform.position;                            
+                //investigateSpot = coll.gameObject.transform.position;                            
             }
         
         }
