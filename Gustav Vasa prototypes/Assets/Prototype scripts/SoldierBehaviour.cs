@@ -4,7 +4,9 @@ using System.Collections;
 
     public class SoldierBehaviour : MonoBehaviour
 {
-        
+    public GameObject pathFinding;
+    PathGrid grid;
+    Journey myJourney;   
     public UnityEngine.AI.NavMeshAgent agent;
     [SerializeField]
     private bool activeSkiing;//this is a bool to determine if the ai should use skiing or not.
@@ -50,6 +52,7 @@ using System.Collections;
         }
         void Start()
         {
+        Invoke("LateStart", 0.0001f);
             //assign the references for the agents and character scripts           
             agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
             //character = GetComponent<ThirdPersonCharacter>();// this can be changed to other script when we have a more specific movement script created
@@ -60,15 +63,36 @@ using System.Collections;
             agent.updatePosition = false;
             agent.updateRotation = false;
             // set inital state to patrol= danish enemies goes between points
-            state = SoldierBehaviour.State.PATROL;
+            state = SoldierBehaviour.State.CHASE;
             // ai is alivve
             alive = true;
             heightMultiplier = 0.36f;
 
+        grid = pathFinding.GetComponent<PathGrid>();
         }
+    void LateStart()
+    {
+        foreach (var journey in grid.journeys)
+        {
+            if (journey.OwnedBy(transform))
+            {
+                myJourney = journey;
+            }
+        }
+    }
     //general update once per frame
     void FixedUpdate()
     {
+        //if (myJourney == null && grid.journeys!=null)
+        //{
+        //    foreach (var journey in grid.journeys)
+        //    {
+        //        if (journey.OwnedBy(transform))
+        //        {
+        //            myJourney = journey;
+        //        }
+        //    }
+        //}
         StartCoroutine("FSM");        
         agent.nextPosition = transform.position;
     }
@@ -82,7 +106,7 @@ using System.Collections;
                 {
                     case State.PATROL:
                         // calls method for patroling
-                        Patrol();
+                       // Patrol();
                         break;
                     case State.CHASE:
                     // calls methd for chasing the player
@@ -129,16 +153,18 @@ using System.Collections;
                 //character.Move(Vector3.zero,false,false);
             }
         }
-        void Chase()
-        {
+    void Chase()
+    {
         //timer += Time.deltaTime;
         //if(timer <= investigateWait)
-        
-            agent.SetDestination(this.transform.position);
-            transform.LookAt(investigateSpot);
+
+        //agent.SetDestination(this.transform.position);
+        if (myJourney!=null && myJourney.path != null)if(myJourney.path.Count>0) { 
+        investigateSpot = myJourney.path[0].worldPos;
+        transform.LookAt(investigateSpot); }
             //Debug.Log("hey! You");                
             //agent.speed = chasespeed;
-            agent.SetDestination(GameObject.FindGameObjectWithTag("Player").transform.position);
+            //agent.SetDestination(GameObject.FindGameObjectWithTag("Player").transform.position);
         //character.Move(agent.desiredVelocity, false, false);
         if (activeSkiing)
             enemy.MoveForward(agent.desiredVelocity, true);
@@ -278,7 +304,7 @@ using System.Collections;
             if (coll.tag == "Player")
             {               
                 state = SoldierBehaviour.State.CHASE;
-                investigateSpot = coll.gameObject.transform.position;                            
+                //investigateSpot = coll.gameObject.transform.position;                            
             }
         
         }

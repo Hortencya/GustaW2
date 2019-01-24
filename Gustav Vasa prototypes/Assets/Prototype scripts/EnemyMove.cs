@@ -80,7 +80,6 @@ public class EnemyMove : MonoBehaviour
     }
     void SkiVelocityChange()
     {
-
         if (body.transform.InverseTransformDirection(body.velocity).z < -0.4)// bakvord sliding
         {
             body.drag = orgDrag;

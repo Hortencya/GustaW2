@@ -18,10 +18,32 @@ public class Player : MonoBehaviour
     /// <param name="other"></param>
     public void OnTriggerStay(Collider other)
     {
-        if(other.gameObject.tag == "Goalpost")
+        if (other.gameObject.tag == "Goalpost")
         {
             Debug.Log("scene switch");
             Application.LoadLevel(1);//switch to 2dView
+        }
+        else
+            TakeDamage(other.gameObject);
+    }
+    /// <summary>
+    /// When colliding with a rock or three the players health will deplete with a different amount dependent on what
+    /// was collided with.
+    /// </summary>
+    private void TakeDamage(GameObject game)
+    {
+        string type = game.tag;
+        switch (type)
+        {
+            case "Rock":
+                health = health - 10;
+                break;
+            case "Fir":
+                health = health - 7;
+                break;
+            case "Projectile":
+                health = health - 15;
+                break;
         }
     }
     

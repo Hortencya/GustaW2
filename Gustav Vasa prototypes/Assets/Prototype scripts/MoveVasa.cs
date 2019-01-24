@@ -3,6 +3,7 @@ using System.Collections;
 //namespace UnityStandardAssets.Characters.ThirdPerson{
     public class MoveVasa : MonoBehaviour
     {
+        
         float y;// rotation y direction input
         float z;// movement z direction input
 
@@ -22,36 +23,33 @@ using System.Collections;
         CapsuleCollider skin;
         TrailRenderer trail;
         Camera camera;
+        AnimationManager myAnimations;//reference to animationmanager
         Animator GustavAnim;//animator reference
         //}
         float orgDrag;
-
-
-
-
         public bool testDrag; // test
 
-        //test variabler
+    //test variabler
 
-
-        // Use this for initialization
-        void Start()
+    // Use this for initialization
+    void Start()
         {
             // geting componets
             skin = GetComponent<CapsuleCollider>();
-            player = GetComponent<Rigidbody>();// get the players transform component
+            player = GetComponent<Rigidbody>();// get the players transform component              
             //trail = GetComponent<TrailRenderer>();
             camera = GameManager.managerWasa.GetCamera;
-            orgDrag = player.drag;            
+            orgDrag = player.drag;
             // deactivates the skiis if that is not already done
             //GameManager.managerWasa.VasaSkiis.SetActive(false);
             GustavAnim = GetComponentInChildren<Animator>();//Get animatorcomponent from player
+            myAnimations = GameObject.FindGameObjectWithTag("AnimationManager").GetComponent<AnimationManager>();//later call from the game manager
+            myAnimations.SkiingModelActive = true;
     }
 
         // Update is called once per frame
         void Update()
         {
-
             z = Input.GetAxis("Vertical");// get  input for movment
             y = Input.GetAxis("Horizontal");// get input for rotation
 
@@ -85,28 +83,28 @@ using System.Collections;
                                           //stands the capsulecollidern up to use it normaly {
                 skin.direction = 1;
                 skin.center = new Vector3(0, 0.8f, 0);
-            //}
-            //trail.enabled = false;
-            //checking for input via WASD controls as standard for many applications this day
-            if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
-            {                
                 Walking();
-                Spining();                
-                RotationWhenWalking();// logics are changing here
-            }
-            else
-                Idle();  
-            }
-
-            else
-            {
+                Spining();
+        }
+        //trail.enabled = false;
+        //checking for input via WASD controls as standard for many applications this day
+        //if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
+        //{
+        //    
+        //    
+        //}
+        //else
+        //    Idle();
+              
+        else
+        {
                 player.useGravity = true;
                 Spining();
                 
             }
 
-            //player.AddTorque(Vector3.up* x*1000, ForceMode.VelocityChange);
-        }
+        //player.AddTorque(Vector3.up * x * 1000, ForceMode.VelocityChange);
+    }
         /// <summary>
         /// non phisikal movment
         /// </summary>
@@ -116,48 +114,51 @@ using System.Collections;
             GameManager.managerWasa.VasaSkiis.SetActive(false);       
             //player.velocity = (player.transform.TransformDirection(Vector3.forward) * z * movementSpeed);// updated movement over time
             player.velocity = new Vector3(camera.transform.forward.x, 0, camera.transform.forward.z) * z * movementSpeed + camera.transform.right * y * movementSpeed;
-            GustavAnim.SetBool("Walks", true);
-            GustavAnim.SetBool("EnterSkiing", false);
+            player.AddTorque(Vector3.up * y * turnSpeed, ForceMode.VelocityChange);
+        //Enables animations             
+            myAnimations.IdleCarousel();
+          if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S))
+          {
+            myAnimations.StartWalkanimation();
+            TurnAfterMousePos();
+          }
         
         }
     /// <summary>
     /// A method that sets the walkcycle to false right now it only contains one single idle animation
     /// but later on more idles as well as conditions to start them can be added here 
     /// </summary>
-       void Idle()
-        {
-
+    void Idle()
+    {
         GameManager.managerWasa.VasaSkiis.SetActive(false);
-        GustavAnim.SetBool("Walks", false);//sets walking to false and put idle to play
-        GustavAnim.SetBool("EnterSkiing", false);
+        //enable animation
+        myAnimations.IdleCarousel();
         //put rotation values as with normal walking
         rota = camera.transform.rotation.eulerAngles.y;
         Quaternion target = Quaternion.Euler(0, rota, 0);//set rotation
         player.rotation = Quaternion.Slerp(transform.rotation, target, Time.deltaTime * 30);//update rotation
     }
-        /// <summary>
-        /// non phisikal rotation
-        /// </summary>
-        void Spining()
+    /// <summary>
+    /// non physikal rotation
+    /// </summary>
+    void Spining()
         {
-            //rota = player.rotation.eulerAngles.y + y * turnSpeed;// rotation equal to rotation + x-axis*turnspeed
-            if (IsSkiing == false)
-        { 
+        //rota = player.rotation.eulerAngles.y + y * turnSpeed;// rotation equal to rotation + x-axis*turnspeed
+        if (IsSkiing == false)
+        {
             rota = camera.transform.rotation.eulerAngles.y;
             Quaternion target = Quaternion.Euler(0, rota, 0);//set rotation
-
-
             player.rotation = Quaternion.Slerp(transform.rotation, target, Time.deltaTime * 30);//update rotation
-            }
-        else player.AddTorque(Vector3.up * y * SkiTurnSpeed, ForceMode.VelocityChange);
+        }
+        else
+            player.AddTorque(Vector3.up * y * SkiTurnSpeed, ForceMode.VelocityChange);
         }
         /// <summary>
         /// phisikal movment and rotation
         /// </summary>
         void Skiing()
-        {
-           // enables the skiis on Gustav Vasa when he is skiing
-            GameManager.managerWasa.VasaSkiis.SetActive(true);
+        {           
+            //GameManager.managerWasa.VasaSkiis.SetActive(true);// enables the skiis on Gustav Vasa when he is skiing
             player.AddForce(transform.forward * z * movementSpeed, ForceMode.Acceleration);
             player.AddTorque(Vector3.up * y * SkiTurnSpeed, ForceMode.VelocityChange);           
             if (Input.GetButton("Fire2") == true)
@@ -165,11 +166,12 @@ using System.Collections;
                 player.drag = 2;
             }
             else player.drag = orgDrag;
-        GustavAnim.SetBool("Walks", false);
-        GustavAnim.SetBool("EnterSkiing", true);        
+        //animation enabling
+        myAnimations.SkiingModelActive = true;
+        myAnimations.SkiAnimationCarousel();                
         }
         /// <summary>
-        /// alter velosity vektor baset on ski orentation
+        /// alter velosity vektor baset on ski orentation, observe this does only affect speed not rotation
         /// </summary>
         void SkiVelocityChange()
         {
@@ -265,10 +267,17 @@ using System.Collections;
             skiingKlicked = false;
         }
     /// <summary>
-    ///This function uses the rotation of the mouse to rotate the character after the y axis, this way
+    /// method that rotates the charcter after the mouse 
     /// </summary>
-    private void RotationWhenWalking()
-    {               
+    private void TurnAfterMousePos()
+    {
+        Vector3 playerRot = new Vector3(player.rotation.x, 0, 0);
+        Vector2 mousepos = new Vector2(Input.mousePosition.x, 0);
+        float newX = playerRot.x + mousepos.x;
+        if (newX > -360 && newX < 360)
+        {
+            player.rotation = Quaternion.Euler(newX, 0, 0);
+        }
     }
         //}
     }

@@ -17,6 +17,7 @@ TagManager:
   - MinimumDist
   - flooring
   - GoalPost
+  - AnimationManager
   layers:
   - Default
   - TransparentFX
@@ -27,7 +28,7 @@ TagManager:
   - 
   - 
   - Ground
-  - 
+  - Obstacle layer
   - 
   - 
   - 
