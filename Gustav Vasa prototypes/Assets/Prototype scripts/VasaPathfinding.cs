@@ -5,21 +5,44 @@ using UnityEngine;
 public class VasaPathfinding : MonoBehaviour {
 
     // Use this for initialization
-    public Transform seeker, target;
+    public Transform[] targets;
+    public Transform[] seekers;
+    public List<Journey> journeys;
     PathGrid grid;
 	void Awake()
     {
         grid = GetComponent<PathGrid>();
     }
+    void Start()
+    {
+        journeys = grid.journeys;
+        foreach (var seeker in seekers)
+        {
+            journeys.Add(new Journey(seeker));
+         }
+        InvokeRepeating("PathUpdate", 0,0.1f);
+    }
     void Update()
     {
-        FindPath(seeker.position, target.position);
+        //foreach (var journey in journeys)
+        //{
+        //    if (!journey.HaveTarget()) journey.SetTarget(target);
+        //    FindPath(journey);
+        //}
+        
     }
-
-    void FindPath(Vector3 starPos, Vector3 targetPos)
+    void PathUpdate()
     {
-        Node startNode = grid.GetNodeFromWorldPos(starPos);
-        Node targetNode = grid.GetNodeFromWorldPos(targetPos);
+        for (int i = 0; i < seekers.Length; i++)
+        {
+            if (!journeys[i].HaveTarget()) journeys[i].SetTarget(targets[i]);
+            FindPath(journeys[i]);
+        }
+    }
+    void FindPath(Journey journey)
+    {
+        Node startNode = grid.GetNodeFromWorldPos(journey.owner.position);
+        Node targetNode = grid.GetNodeFromWorldPos(journey.target.position);
 
         List<Node> openSet = new List<Node>();
         HashSet<Node> closedSet = new HashSet<Node>();
@@ -39,7 +62,7 @@ public class VasaPathfinding : MonoBehaviour {
             closedSet.Add(currentNode);
             if (currentNode == targetNode)
             {
-                RetracePath(startNode, targetNode);
+                RetracePath(startNode, targetNode, journey);
                 return;
             }
             foreach (Node neighbour in grid.getNeighbours(currentNode))
@@ -47,8 +70,8 @@ public class VasaPathfinding : MonoBehaviour {
                 if(!neighbour.wakable || closedSet.Contains(neighbour)) {
                     continue;
                 }
-                int newCostToNeighbour = currentNode.disFromStart + GetDistance(currentNode, neighbour);
-                if(newCostToNeighbour < neighbour.disFromStart || !openSet.Contains(neighbour))
+                float newCostToNeighbour = currentNode.disFromStart + GetDistanceNeigbour(currentNode, neighbour);
+                if (newCostToNeighbour < neighbour.disFromStart || !openSet.Contains(neighbour))
                 {
                     neighbour.disFromStart = newCostToNeighbour;
                     neighbour.disFromEnd = GetDistance(neighbour, targetNode);
@@ -58,10 +81,27 @@ public class VasaPathfinding : MonoBehaviour {
                         openSet.Add(neighbour);
                     }
                 }
+                //Debug.Log((neighbour.gridX - currentNode.gridX)+  "  " + (neighbour.gridY - currentNode.gridY));
+                //if ( GetDistance(currentNode, neighbour)   == currentNode.GetDicNeigbour(neighbour.gridX-currentNode.gridX +1,neighbour.gridY-currentNode.gridY +1) ) Debug.Log("truo"); else Debug.Log("fals");
             }
         }
     }
-    void RetracePath( Node startNode, Node endNode)
+    public float SlopeModefiedDistanceToNeigbour(Node a, Node b)
+    {
+        float ret = 1;
+        if (a.worldPos.y < b.worldPos.y)
+        {
+            ret = 1*( (b.worldPos.y - a.worldPos.y) + 1);
+            
+        }
+        else if (a.worldPos.y > b.worldPos.y )
+        {
+            ret =1/( (a.worldPos.y - b.worldPos.y)+1);
+           
+        } return ret;
+     
+    }
+    void RetracePath( Node startNode, Node endNode, Journey journey)
     {
         List<Node> path = new List<Node>();
         Node currentNude = endNode;
@@ -72,16 +112,19 @@ public class VasaPathfinding : MonoBehaviour {
             currentNude = currentNude.parent;
         }
         path.Reverse();
-
-        grid.path = path;
+        journey.path = path;
+        //grid.path = path;
     }
 
-
-    int GetDistance(Node nodeA, Node nodeb)
+    float GetDistanceNeigbour(Node nodeA, Node nodeb)
     {
-        return (int)Vector3.Distance(nodeA.worldPos, nodeb.worldPos);
+        return nodeA.GetDicNeigbour(nodeb.gridX - nodeA.gridX + 1, nodeb.gridY - nodeA.gridY + 1);
     }
-        int GetDistanceOld(Node nodeA, Node nodeb)
+        float GetDistance(Node nodeA, Node nodeb)
+    {
+        return Vector3.Distance(nodeA.worldPos, nodeb.worldPos);
+    }
+        int GetDistanceOldOld(Node nodeA, Node nodeb)
     {
        int disX = Mathf.Abs(nodeA.gridX - nodeb.gridX);
         int disY = Mathf.Abs(nodeA.gridY - nodeb.gridY);

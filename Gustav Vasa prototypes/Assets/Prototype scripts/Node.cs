@@ -8,10 +8,10 @@ public class Node  {
     public Vector3 worldPos;
     public int gridX;
     public int gridY;
+    public float[,] dicNeighbour = new float[3,3];
 
-
-    public int disFromStart;
-    public int disFromEnd;
+    public float disFromStart;
+    public float disFromEnd;
 
     public Node parent;
 
@@ -23,8 +23,12 @@ public class Node  {
         gridY = _gridY;
 
 }
-    public int cost
+    public float cost
     {
         get { return disFromStart + disFromEnd; }
+    }
+    public float GetDicNeigbour(int x,int z)
+    {
+        return dicNeighbour[x,z];
     }
 }

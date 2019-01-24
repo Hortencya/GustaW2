@@ -5,7 +5,8 @@ using System.Collections;
     public class SoldierBehaviour : MonoBehaviour
 {
     public GameObject pathFinding;
-    PathGrid grid;   
+    PathGrid grid;
+    Journey myJourney;   
     public UnityEngine.AI.NavMeshAgent agent;
     [SerializeField]
     private bool activeSkiing;//this is a bool to determine if the ai should use skiing or not.
@@ -51,6 +52,7 @@ using System.Collections;
         }
         void Start()
         {
+        Invoke("LateStart", 0.0001f);
             //assign the references for the agents and character scripts           
             agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
             //character = GetComponent<ThirdPersonCharacter>();// this can be changed to other script when we have a more specific movement script created
@@ -68,9 +70,29 @@ using System.Collections;
 
         grid = pathFinding.GetComponent<PathGrid>();
         }
+    void LateStart()
+    {
+        foreach (var journey in grid.journeys)
+        {
+            if (journey.OwnedBy(transform))
+            {
+                myJourney = journey;
+            }
+        }
+    }
     //general update once per frame
     void FixedUpdate()
     {
+        //if (myJourney == null && grid.journeys!=null)
+        //{
+        //    foreach (var journey in grid.journeys)
+        //    {
+        //        if (journey.OwnedBy(transform))
+        //        {
+        //            myJourney = journey;
+        //        }
+        //    }
+        //}
         StartCoroutine("FSM");        
         agent.nextPosition = transform.position;
     }
@@ -137,8 +159,8 @@ using System.Collections;
         //if(timer <= investigateWait)
 
         //agent.SetDestination(this.transform.position);
-        if (grid.path != null)if(grid.path.Count>0) { 
-        investigateSpot = grid.path[0].worldPos;
+        if (myJourney!=null && myJourney.path != null)if(myJourney.path.Count>0) { 
+        investigateSpot = myJourney.path[0].worldPos;
         transform.LookAt(investigateSpot); }
             //Debug.Log("hey! You");                
             //agent.speed = chasespeed;
