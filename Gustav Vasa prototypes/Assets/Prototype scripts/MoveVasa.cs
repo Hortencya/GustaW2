@@ -82,7 +82,7 @@ using System.Collections;
                 player.useGravity = false;// stops sliding when walking
                                           //stands the capsulecollidern up to use it normaly {
                 skin.direction = 1;
-                skin.center = new Vector3(0, 0.8f, 0);
+                skin.center = new Vector3(0, 0.8f, -0.3f);
                 Walking();
                 Spining();
         }

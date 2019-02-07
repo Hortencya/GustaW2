@@ -98,7 +98,7 @@ public class PathGrid : MonoBehaviour {
     {
         RaycastHit hit;
         
-            if (Physics.Raycast(worldPos, Vector3.down, out hit))
+            if (Physics.Raycast(worldPos, Vector3.down, out hit, Mathf.Infinity, ~(1 << 10)))
             {
                 return  hit.point;
             }
