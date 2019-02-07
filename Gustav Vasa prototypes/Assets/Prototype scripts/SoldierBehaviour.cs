@@ -11,7 +11,8 @@ using System.Collections;
     [SerializeField]
     private bool activeSkiing;//this is a bool to determine if the ai should use skiing or not.
     public EnemyMove enemy;
-
+    Shooter shooter;
+    bool haveShoot = false;
         public enum State
         {
             PATROL,
@@ -57,6 +58,7 @@ using System.Collections;
             agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
             //character = GetComponent<ThirdPersonCharacter>();// this can be changed to other script when we have a more specific movement script created
             enemy = GetComponent<EnemyMove>();// get the movement script ref
+            shooter = GetComponent<Shooter>();
             //allow navmesh agent to update movement and rotation
             // function that generates random ways for ai to walk on
             waypoints = GameManager.managerWasa.RandomizeWayPoints(); //has to work better 
@@ -153,83 +155,112 @@ using System.Collections;
                 //character.Move(Vector3.zero,false,false);
             }
         }
+   
     void Chase()
     {
+       
         //timer += Time.deltaTime;
         //if(timer <= investigateWait)
 
         //agent.SetDestination(this.transform.position);
         if (myJourney!=null && myJourney.path != null)if(myJourney.path.Count>0) { 
         investigateSpot = myJourney.path[0].worldPos;
-        transform.LookAt(investigateSpot); }
+                //transform.LookAt(investigateSpot);
+                if (Vector3.Distance(myJourney.target.position, this.transform.position) < 10)
+                {
+                    state = SoldierBehaviour.State.ATTACK;
+                }
+            }
             //Debug.Log("hey! You");                
             //agent.speed = chasespeed;
             //agent.SetDestination(GameObject.FindGameObjectWithTag("Player").transform.position);
         //character.Move(agent.desiredVelocity, false, false);
         if (activeSkiing)
-            enemy.MoveForward(agent.desiredVelocity, true);
+            enemy.MoveForward(investigateSpot, true);
         else
-            enemy.MoveForward(agent.desiredVelocity, false);        
-        }
-        /// <summary>
-        /// function for attacking Gustav Vasa
-        /// </summary>
-        private void Attacking()
-       {
+            enemy.MoveForward(investigateSpot, false);
+
+        
+        
+              
+    }
+
+
+    /// <summary>
+    /// function for attacking Gustav Vasa
+    /// </summary>
+    private void Attacking()
+    {
+        //Debug.DrawRay(this.transform.position, this.transform.InverseTransformPoint( myJourney.target.position));
+        
+        enemy.Stop(myJourney.target.position);
+
+        shooter.Shoot(myJourney.target.GetChild(5).position);
+        if(!haveShoot) StartCoroutine(backToWork());
+        haveShoot = true;
+    
+    }
+    private IEnumerator backToWork()
+    {
+        yield return new WaitForSeconds(shooter.shootInteval);
+        state = SoldierBehaviour.State.CHASE;
+        haveShoot = false;
+    }
+
         //stop navmesh agent
         // get player health 
         // determine if hit
         // if the attack does hit remove health from gustav vasa 
-       }
-    //void Investigate()
-    //{
 
-    //    timer += Time.deltaTime;
-    //    RaycastHit hit;
+        //void Investigate()
+        //{
 
-    //    agent.SetDestination(this.transform.position);
-    //    //character.Move(Vector3.zero, false, false);
-    //    transform.LookAt(investigateSpot);
-    //    if (timer <= investigateWait)
-    //    {
-    //        state = SoldierBehaviour.State.PATROL;
-    //        timer = 0;
-    //    }
-    //    // debuggers
-    //    Debug.DrawRay(transform.position + Vector3.up * heightMultiplier, transform.forward * sightDist, Color.green);
-    //    Debug.DrawRay(transform.position + Vector3.up * heightMultiplier, (transform.forward+transform.right).normalized * sightDist, Color.green);
-    //    Debug.DrawRay(transform.position + Vector3.up * heightMultiplier, (transform.forward-transform.right).normalized * sightDist, Color.green);
-    //    // rays
-    //    if (Physics.Raycast(transform.position + Vector3.up * heightMultiplier, transform.forward, out hit, sightDist))
-    //    {
-    //    Debug.Log(hit.collider.gameObject.tag);
-    //        if (hit.collider.gameObject.tag == "Player")
-    //        {
-    //        Debug.Log("fgiu");
-    //            state = SoldierBehaviour.State.CHASE;                   
-    //        }
-    //    }
-    //    if (Physics.Raycast(transform.position + Vector3.up * heightMultiplier, (transform.forward+transform.right).normalized, out hit, sightDist))
-    //    {
-    //        if (hit.collider.gameObject.tag == "Player")
-    //        {
-    //            state = SoldierBehaviour.State.CHASE;
-    //        }
-    //    }
-    //    if (Physics.Raycast(transform.position + Vector3.up * heightMultiplier, (transform.forward-transform.right).normalized, out hit, sightDist))
-    //    {
-    //        if (hit.collider.gameObject.tag == "Player")
-    //        {
-    //            state = SoldierBehaviour.State.CHASE;
-    //        }
-    //    }
+        //    timer += Time.deltaTime;
+        //    RaycastHit hit;
+
+        //    agent.SetDestination(this.transform.position);
+        //    //character.Move(Vector3.zero, false, false);
+        //    transform.LookAt(investigateSpot);
+        //    if (timer <= investigateWait)
+        //    {
+        //        state = SoldierBehaviour.State.PATROL;
+        //        timer = 0;
+        //    }
+        //    // debuggers
+        //    Debug.DrawRay(transform.position + Vector3.up * heightMultiplier, transform.forward * sightDist, Color.green);
+        //    Debug.DrawRay(transform.position + Vector3.up * heightMultiplier, (transform.forward+transform.right).normalized * sightDist, Color.green);
+        //    Debug.DrawRay(transform.position + Vector3.up * heightMultiplier, (transform.forward-transform.right).normalized * sightDist, Color.green);
+        //    // rays
+        //    if (Physics.Raycast(transform.position + Vector3.up * heightMultiplier, transform.forward, out hit, sightDist))
+        //    {
+        //    Debug.Log(hit.collider.gameObject.tag);
+        //        if (hit.collider.gameObject.tag == "Player")
+        //        {
+        //        Debug.Log("fgiu");
+        //            state = SoldierBehaviour.State.CHASE;                   
+        //        }
+        //    }
+        //    if (Physics.Raycast(transform.position + Vector3.up * heightMultiplier, (transform.forward+transform.right).normalized, out hit, sightDist))
+        //    {
+        //        if (hit.collider.gameObject.tag == "Player")
+        //        {
+        //            state = SoldierBehaviour.State.CHASE;
+        //        }
+        //    }
+        //    if (Physics.Raycast(transform.position + Vector3.up * heightMultiplier, (transform.forward-transform.right).normalized, out hit, sightDist))
+        //    {
+        //        if (hit.collider.gameObject.tag == "Player")
+        //        {
+        //            state = SoldierBehaviour.State.CHASE;
+        //        }
+        //    }
 
 
-    //}
-    /// <summary>
-    /// hearing range for ai enemy. Uses a vector 3. distance to determine how far away the ai is from the point of distraction
-    /// </summary>
-    /// <param name="pointofHearing"></param>
+        //}
+        /// <summary>
+        /// hearing range for ai enemy. Uses a vector 3. distance to determine how far away the ai is from the point of distraction
+        /// </summary>
+        /// <param name="pointofHearing"></param>
     private void DetermineHearingRange(Vector3 pointofHearing)
         {
         if (Vector3.Distance(transform.position, pointofHearing) <= 25)
@@ -264,7 +295,7 @@ using System.Collections;
             {                
                 // we stop the enemy when they have reached their point of distraction
                 agent.SetDestination(this.transform.position);              
-                enemy.Stop();
+                //enemy.Stop();
                 //transform.LookAt(pointOfDistraction);
                 //call a yield return wait for secounds before reseting to patrolling
                 StartCoroutine(ReactWait());                                         

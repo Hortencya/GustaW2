@@ -18,6 +18,11 @@ TagManager:
   - flooring
   - GoalPost
   - AnimationManager
+  - Rock
+  - Projectile
+  - Deathwall
+  - Fir
+  - Target
   layers:
   - Default
   - TransparentFX
@@ -29,7 +34,7 @@ TagManager:
   - 
   - Ground
   - Obstacle layer
-  - 
+  - Non Camera Obstacle
   - 
   - 
   - 

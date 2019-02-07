@@ -139,7 +139,7 @@ public class CameraFollow : MonoBehaviour
         RaycastHit hit;
         Vector3 zoomPos = ZoomOutandIn();
         Debug.DrawRay(camlookatPos.transform.position, camlookatPos.transform.TransformVector(origPos), Color.blue);
-        if (Physics.Raycast(new Ray(camlookatPos.transform.position, camlookatPos.transform.TransformVector(origPos) ), out hit ))
+        if (Physics.Raycast(new Ray(camlookatPos.transform.position, camlookatPos.transform.TransformVector(origPos) ), out hit, Mathf.Infinity, ~(1 << 10)))
         {
             if (hit.collider.tag!= main.tag&& hit.distance<Vector3.Distance(camlookatPos.position, zoomPos))
             {

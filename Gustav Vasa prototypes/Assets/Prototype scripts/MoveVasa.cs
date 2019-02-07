@@ -27,9 +27,7 @@ using System.Collections;
         Animator GustavAnim;//animator reference
         //}
         float orgDrag;
-        public bool testDrag; // test
-
-    //test variabler
+        public bool testDrag; // test    
 
     // Use this for initialization
     void Start()
@@ -168,7 +166,7 @@ using System.Collections;
             else player.drag = orgDrag;
         //animation enabling
         myAnimations.SkiingModelActive = true;
-        myAnimations.SkiAnimationCarousel();                
+        myAnimations.SkiingAnimation();                
         }
         /// <summary>
         /// alter velosity vektor baset on ski orentation, observe this does only affect speed not rotation

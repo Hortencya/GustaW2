@@ -9,7 +9,8 @@ public class VasaPathfinding : MonoBehaviour {
     public Transform[] seekers;
     public List<Journey> journeys;
     PathGrid grid;
-	void Awake()
+    Node lastTargetNode;
+    void Awake()
     {
         grid = GetComponent<PathGrid>();
     }
@@ -43,13 +44,21 @@ public class VasaPathfinding : MonoBehaviour {
     {
         Node startNode = grid.GetNodeFromWorldPos(journey.owner.position);
         Node targetNode = grid.GetNodeFromWorldPos(journey.target.position);
-
+        
         List<Node> openSet = new List<Node>();
         HashSet<Node> closedSet = new HashSet<Node>();
         openSet.Add(startNode);
 
         while (openSet.Count > 0)
         {
+            if (targetNode.wakable)
+            {
+                lastTargetNode = targetNode;
+            }
+            else
+            {
+                targetNode = lastTargetNode;
+            }
             Node currentNode = openSet[0];
             for (int i = 1; i < openSet.Count; i++)
             {

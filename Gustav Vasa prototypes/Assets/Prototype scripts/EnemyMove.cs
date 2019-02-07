@@ -37,9 +37,9 @@ public class EnemyMove : MonoBehaviour
             movementSpeed = 10;
             sudo.position = body.transform.position;
             body.AddForce(transform.forward * movementSpeed, ForceMode.Acceleration);
-            sudo.LookAt(body.position + direction);
+            sudo.LookAt( direction);
 
-            body.rotation = Quaternion.Slerp(transform.rotation, sudo.rotation, Time.deltaTime * 30);
+            body.rotation = Quaternion.Slerp(transform.rotation, sudo.rotation, Time.fixedDeltaTime );
         }
         else
         {
@@ -58,8 +58,8 @@ public class EnemyMove : MonoBehaviour
             // define our transform
             sudo.position = body.transform.position;
             body.AddForce(transform.forward * movementSpeed);// I dont know if I should include a forcemode yet
-            sudo.LookAt(body.position + direction);
-            body.rotation = Quaternion.Slerp(transform.rotation, sudo.rotation, Time.deltaTime * 30);
+            sudo.LookAt( direction);
+            body.rotation = Quaternion.Slerp(transform.rotation, sudo.rotation, Time.deltaTime );
         }
         else
         {
@@ -71,13 +71,22 @@ public class EnemyMove : MonoBehaviour
     /// <summary>
     /// Method for stoping movement of enemies
     /// </summary>
-    public void Stop()
+    public void Stop(Vector3 direction)
     {
         sudo.position = body.transform.position;
-        body.transform.Translate(Vector3.zero);      
-        //keeps the rotation consistent
-        body.rotation = Quaternion.Slerp(transform.rotation, sudo.rotation, Time.deltaTime * 30);
+        body.transform.Translate(Vector3.zero);
+
+        sudo.LookAt(direction);
+        body.rotation = Quaternion.Slerp(transform.rotation, sudo.rotation, Time.deltaTime);
+        if (IsGrounded)
+        {
+            body.useGravity = false;
+        }
+        else body.useGravity = true;
     }
+    //keeps the rotation consistent
+    //body.rotation = Quaternion.Slerp(transform.rotation, sudo.rotation, Time.deltaTime * 30);
+
     void SkiVelocityChange()
     {
         if (body.transform.InverseTransformDirection(body.velocity).z < -0.4)// bakvord sliding
